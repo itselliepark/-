@@ -1,0 +1,7 @@
+{
+  "name": "hyperframes-workspace",
+  "private": true,
+  "dependencies": {
+    "hyperframes": "0.9.25"
+  }
+}
