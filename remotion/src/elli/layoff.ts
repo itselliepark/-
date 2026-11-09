@@ -23,7 +23,8 @@ export const layoff: EditSpec = {
     {t: 12.08, text: '1주, 1년이면 2주', style: 'mint'},
     {t: 13.14, text: '이런 식으로'},
     {t: 13.55, text: '최대 8주치 급여나', style: 'mint'},
-    {t: 14.6, text: '그만큼의 통보기간이'},
+    {t: 14.6, text: '그만큼의'},
+    {t: 14.88, text: '통보기간이', style: 'mint'},
     {t: 15.44, text: '법으로 보장되거든요', style: 'mint', label: 'BC주 고용기준법 기준'},
     {t: 16.62, text: '이건 사인 안 해도'},
     {t: 17.32, text: '받을 수 있는 거니까'},
@@ -38,10 +39,11 @@ export const layoff: EditSpec = {
     {t: 25.54, text: '고용 종료 기록이고'},
     {t: 26.54, text: 'EI는 캐나다 실업급여예요'},
     {t: 28.2, text: '이걸 꼭 확인해야 되는 이유가'},
-    {t: 29.6, text: 'ROE에 적힌 근무시간이랑 급여로'},
+    {t: 29.6, text: 'ROE에 적힌'},
+    {t: 30.3, text: '근무시간이랑 급여로', style: 'mint'},
     {t: 31.32, text: '내가 EI를 받을 수 있는지'},
-    {t: 32.62, text: '얼마씩, 몇 주 동안 받는지가'},
-    {t: 33.88, text: '정해지거든요'},
+    {t: 32.62, text: '얼마씩, 몇 주 동안', style: 'mint'},
+    {t: 33.52, text: '받는지가 정해지거든요'},
     {t: 34.9, text: '근데 여기서 중요한 건'},
     {t: 35.86, text: 'EI는 마지막 근무일부터'},
     {t: 36.93, text: '4주가 지나면', style: 'mint'},
@@ -69,10 +71,10 @@ export const layoff: EditSpec = {
   // 1.15x punch-ins, switched abruptly (on the cut), per guide §03.
   zooms: [
     [1.74, 3.06], [6.62, 7.82], [9.77, 10.56], [15.44, 16.62], [19.86, 21.1],
-    [22.74, 24.43], [36.93, 39.08], [40.42, 41.46], [50.39, 51.43], [54.36, 55.01],
+    [22.74, 24.43], [30.3, 31.32], [32.62, 33.52], [36.93, 39.08], [40.42, 41.46], [50.39, 51.43], [54.36, 55.01],
   ],
   tips: [
-    {start: 7.82, end: 21.1, n: 1, label: '사인 전에 체크'},
+    {start: 7.82, end: 21.1, n: 1, label: '급여 + 통보기간 체크'},
     {start: 21.1, end: 41.46, n: 2, label: 'ROE + EI'},
     {start: 41.46, end: 52.49, n: 3, label: '레퍼런스'},
   ],
@@ -80,6 +82,8 @@ export const layoff: EditSpec = {
   cards: [
     {start: 10.56, end: 16.62, kind: 'table', heading: 'BC주 해고 시 보장 (통보 또는 급여)',
       rows: [['3개월 이상', '1주'], ['1년 이상', '2주'], ['3년 이상', '3주 + 1년마다 1주'], ['최대', '8주']]},
+    {start: 29.6, end: 34.9, kind: 'table', heading: 'ROE 내용으로 EI가 정해져요',
+      rows: [['근무시간', '→ 받을 수 있는지'], ['급여', '→ 얼마씩 · 몇 주 동안']], rowTimes: [30.3, 32.62]},
     {start: 36.93, end: 41.46, kind: 'warn', heading: '마지막 근무일부터 4주 안에 EI 신청!',
       rows: [['ROE 안 나왔어도 먼저 신청']]},
     {start: 43.6, end: 46.72, kind: 'check', heading: '퇴사 전 챙길 것',
@@ -91,7 +95,7 @@ export const layoff: EditSpec = {
   ],
   sfx: [
     {t: 0.05, kind: 'whoosh'}, {t: 1.74, kind: 'thud'}, {t: 7.82, kind: 'pop'}, {t: 9.77, kind: 'buzz'},
-    {t: 10.56, kind: 'pop'}, {t: 13.55, kind: 'ding'}, {t: 21.1, kind: 'pop'}, {t: 24.43, kind: 'pop'}, {t: 26.54, kind: 'pop'},
+    {t: 10.56, kind: 'pop'}, {t: 13.55, kind: 'ding'}, {t: 21.1, kind: 'pop'}, {t: 24.43, kind: 'pop'}, {t: 26.54, kind: 'pop'}, {t: 29.6, kind: 'pop'}, {t: 32.62, kind: 'ding'},
     {t: 36.93, kind: 'buzz'}, {t: 41.46, kind: 'pop'}, {t: 43.6, kind: 'pop'},
   ],
 };

@@ -9,7 +9,7 @@ import type {Card, EditSpec, Sub} from './types';
 export const C = {mint: '#8BEBFC', red: '#F85956', yellow: '#FBDB73', blue: '#0161C6', ink: '#111111'};
 const SUB_Y = 1230; // ~64% of 1920
 const SAFE_TOP = 290; // keep top graphics below the Reels top UI dead zone (~15%)
-const EMPH_SHADOW = '0 3px 8px rgba(0,0,0,.35)'; // emphasis text: no outline, soft shadow only
+const EMPH_SHADOW = '0 2px 10px rgba(0,0,0,.75), 0 0 4px rgba(0,0,0,.6)'; // emphasis text: no outline, dark blurred halo (matches VLLO shadow)
 const FONTS: [string, string][] = [
   ['Anemone', 'fonts/Cafe24Anemone.ttf'],
   ['Kkubulim', 'fonts/BMkkubulim.ttf'],
@@ -88,12 +88,12 @@ const TipBadge: React.FC<{n: number; total: number; label: string}> = ({n, total
   </div>
 );
 
-const InfoCard: React.FC<{card: Card}> = ({card}) => {
+const InfoCard: React.FC<{card: Card; t: number}> = ({card, t}) => {
   const warn = card.kind === 'warn';
   return (
     <div style={{width: 780, background: '#fff', borderRadius: 20, boxShadow: '0 12px 36px rgba(0,0,0,.28)', padding: '20px 30px', display: 'flex', flexDirection: 'column', gap: 10, position: 'relative'}}>
       <div style={{fontFamily: 'PretendardB', fontSize: 35, color: warn ? '#C4302B' : C.ink}}>{warn ? '⚠️ ' : ''}{card.heading}</div>
-      {card.rows.map((r, i) => (
+      {card.rows.map((r, i) => (t < (card.rowTimes?.[i] ?? 0) ? null :
         <div key={i} style={{display: 'flex', gap: 18, fontSize: 31, fontFamily: 'PretendardSB', color: '#333', alignItems: 'baseline'}}>
           {card.kind === 'check' ? <span style={{color: '#1aa56a'}}>✓</span> : null}
           <span style={{minWidth: r.length > 1 ? 210 : 0, color: r.length > 1 ? C.blue : '#333'}}>{r[0]}</span>
@@ -124,7 +124,7 @@ export const ElliEdit: React.FC<{spec: EditSpec}> = ({spec}) => {
       {tip ? <Pop key={`tip${tip.n}`} from={Math.round(tip.start * fps)}><TipBadge n={tip.n} total={spec.total} label={tip.label} /></Pop> : null}
       {card ? (
         <Pop key={card.start} from={Math.round(card.start * fps)} style={{position: 'absolute', top: SAFE_TOP + 80, left: 0, right: 0, display: 'flex', justifyContent: 'center'}}>
-          <InfoCard card={card} />
+          <InfoCard card={card} t={t} />
         </Pop>
       ) : null}
       {tiles.length ? (
