@@ -12,6 +12,8 @@ export type EditSpec = {
   tips: {start: number; end: number; n: number; label: string}[];
   total: number;
   cards: Card[];
+  // Term tiles: each pops in when its term is spoken and sits side by side with the others.
+  tiles?: {start: number; end: number; title: string; body: string}[];
   cta?: {start: number; text: string};
   sfx: Sfx[];
 };

@@ -8,6 +8,8 @@ import type {Card, EditSpec, Sub} from './types';
 // Style tokens from the elliemomento edit guide.
 export const C = {mint: '#8BEBFC', red: '#F85956', yellow: '#FBDB73', blue: '#0161C6', ink: '#111111'};
 const SUB_Y = 1230; // ~64% of 1920
+const SAFE_TOP = 290; // keep top graphics below the Reels top UI dead zone (~15%)
+const EMPH_SHADOW = '0 3px 8px rgba(0,0,0,.35)'; // emphasis text: no outline, soft shadow only
 const FONTS: [string, string][] = [
   ['Anemone', 'fonts/Cafe24Anemone.ttf'],
   ['Kkubulim', 'fonts/BMkkubulim.ttf'],
@@ -44,7 +46,7 @@ const Subtitle: React.FC<{sub: Sub; age: number}> = ({sub}) => {
       <div style={{...base, fontFamily: 'PretendardM', fontSize: 50, color: '#fff', textShadow: '0 2px 6px rgba(0,0,0,.75), 0 0 2px rgba(0,0,0,.8)'}}>{sub.text}</div>
     ) : (
       <div style={{...base, top: SUB_Y - 8, fontFamily: style === 'mint' ? 'Anemone' : 'Kkubulim', fontSize: style === 'mint' ? 66 : 70,
-        color: style === 'mint' ? C.mint : C.red, textShadow: stroke(5, style === 'mint' ? '#0a2a33' : '#3a0b0a')}}>{sub.text}</div>
+        color: style === 'mint' ? C.mint : C.red, textShadow: EMPH_SHADOW}}>{sub.text}</div>
     );
   return (
     <>
@@ -62,9 +64,9 @@ const Title: React.FC<{spec: EditSpec['title']; f: number; fps: number}> = ({spe
   const reveal = (start: number) => interpolate(f, [start, start + 0.5 * fps], [100, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
   const line: React.CSSProperties = {fontFamily: 'Anemone', fontSize: 80, lineHeight: 1.15, textAlign: 'center', whiteSpace: 'nowrap'};
   return (
-    <div style={{position: 'absolute', top: 150, left: 0, right: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6}}>
-      <div style={{...line, color: '#fff', textShadow: stroke(4, 'rgba(0,0,0,.55)'), clipPath: `inset(0 ${reveal(0)}% 0 0)`}}>{spec.line1}</div>
-      <div style={{...line, color: C.mint, textShadow: stroke(5, '#0a2a33'), clipPath: `inset(0 ${reveal(0.35 * fps)}% 0 0)`}}>{spec.line2}</div>
+    <div style={{position: 'absolute', top: SAFE_TOP, left: 0, right: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6}}>
+      <div style={{...line, color: '#fff', textShadow: EMPH_SHADOW, clipPath: `inset(0 ${reveal(0)}% 0 0)`}}>{spec.line1}</div>
+      <div style={{...line, color: C.mint, textShadow: EMPH_SHADOW, clipPath: `inset(0 ${reveal(0.35 * fps)}% 0 0)`}}>{spec.line2}</div>
       {spec.label && f > 0.9 * fps ? (
         <span style={{marginTop: 10, background: '#fff', color: C.ink, fontFamily: 'PretendardSB', fontSize: 32, padding: '6px 16px', borderRadius: 6}}>{spec.label}</span>
       ) : null}
@@ -80,19 +82,19 @@ const Pop: React.FC<{from: number; children: React.ReactNode; style?: React.CSSP
 };
 
 const TipBadge: React.FC<{n: number; total: number; label: string}> = ({n, total, label}) => (
-  <div style={{position: 'absolute', top: 110, left: 0, right: 0, display: 'flex', justifyContent: 'center', gap: 12}}>
+  <div style={{position: 'absolute', top: SAFE_TOP, left: 0, right: 0, display: 'flex', justifyContent: 'center', gap: 12}}>
     <span style={{background: C.blue, color: '#fff', fontFamily: 'PretendardB', fontSize: 34, padding: '8px 22px', borderRadius: 999}}>TIP {n}/{total}</span>
-    <span style={{background: '#fff', color: C.ink, fontFamily: 'PretendardB', fontSize: 34, padding: '6px 20px', borderRadius: 999, border: '3px solid #1aa56a'}}>{label}</span>
+    <span style={{background: '#fff', color: C.ink, fontFamily: 'PretendardB', fontSize: 34, padding: '8px 22px', borderRadius: 999}}>{label}</span>
   </div>
 );
 
 const InfoCard: React.FC<{card: Card}> = ({card}) => {
   const warn = card.kind === 'warn';
   return (
-    <div style={{width: 820, background: '#fff', borderRadius: 22, boxShadow: '0 12px 36px rgba(0,0,0,.28)', padding: '26px 34px', display: 'flex', flexDirection: 'column', gap: 14, position: 'relative'}}>
-      <div style={{fontFamily: 'PretendardB', fontSize: 38, color: warn ? '#C4302B' : C.ink}}>{warn ? '⚠️ ' : ''}{card.heading}</div>
+    <div style={{width: 780, background: '#fff', borderRadius: 20, boxShadow: '0 12px 36px rgba(0,0,0,.28)', padding: '20px 30px', display: 'flex', flexDirection: 'column', gap: 10, position: 'relative'}}>
+      <div style={{fontFamily: 'PretendardB', fontSize: 35, color: warn ? '#C4302B' : C.ink}}>{warn ? '⚠️ ' : ''}{card.heading}</div>
       {card.rows.map((r, i) => (
-        <div key={i} style={{display: 'flex', gap: 18, fontSize: 34, fontFamily: 'PretendardSB', color: '#333', alignItems: 'baseline'}}>
+        <div key={i} style={{display: 'flex', gap: 18, fontSize: 31, fontFamily: 'PretendardSB', color: '#333', alignItems: 'baseline'}}>
           {card.kind === 'check' ? <span style={{color: '#1aa56a'}}>✓</span> : null}
           <span style={{minWidth: r.length > 1 ? 210 : 0, color: r.length > 1 ? C.blue : '#333'}}>{r[0]}</span>
           {r[1] ? <span style={{background: i === card.rows.length - 1 && card.rows.length > 2 ? C.yellow : 'transparent'}}>{r[1]}</span> : null}
@@ -112,6 +114,7 @@ export const ElliEdit: React.FC<{spec: EditSpec}> = ({spec}) => {
   const sub = subIdx >= 0 ? spec.subs[subIdx] : null;
   const tip = spec.tips.find((x) => t >= x.start && t < x.end);
   const card = spec.cards.find((c) => t >= c.start && t < c.end);
+  const tiles = (spec.tiles ?? []).filter((x) => t >= x.start && t < x.end);
   return (
     <AbsoluteFill style={{backgroundColor: '#000'}}>
       <AbsoluteFill style={{transform: `scale(${zoomed ? 1.15 : 1})`, transformOrigin: '50% 38%'}}>
@@ -120,9 +123,21 @@ export const ElliEdit: React.FC<{spec: EditSpec}> = ({spec}) => {
       {t < spec.title.end ? <Title spec={spec.title} f={f} fps={fps} /> : null}
       {tip ? <Pop key={`tip${tip.n}`} from={Math.round(tip.start * fps)}><TipBadge n={tip.n} total={spec.total} label={tip.label} /></Pop> : null}
       {card ? (
-        <Pop key={card.start} from={Math.round(card.start * fps)} style={{position: 'absolute', top: 210, left: 0, right: 0, display: 'flex', justifyContent: 'center'}}>
+        <Pop key={card.start} from={Math.round(card.start * fps)} style={{position: 'absolute', top: SAFE_TOP + 80, left: 0, right: 0, display: 'flex', justifyContent: 'center'}}>
           <InfoCard card={card} />
         </Pop>
+      ) : null}
+      {tiles.length ? (
+        <div style={{position: 'absolute', top: SAFE_TOP + 80, left: 0, right: 0, display: 'flex', justifyContent: 'center', gap: 24}}>
+          {tiles.map((x) => (
+            <Pop key={x.title} from={Math.round(x.start * fps)}>
+              <div style={{width: 380, background: '#fff', borderRadius: 20, boxShadow: '0 12px 36px rgba(0,0,0,.28)', padding: '20px 26px', display: 'flex', flexDirection: 'column', gap: 6}}>
+                <div style={{fontFamily: 'PretendardB', fontSize: 44, color: C.blue}}>{x.title}</div>
+                <div style={{fontFamily: 'PretendardSB', fontSize: 30, color: '#333', lineHeight: 1.3, whiteSpace: 'pre-line'}}>{x.body}</div>
+              </div>
+            </Pop>
+          ))}
+        </div>
       ) : null}
       {spec.cta && t >= spec.cta.start ? (
         <Pop from={Math.round(spec.cta.start * fps)} style={{position: 'absolute', top: 160, left: 0, right: 0, display: 'flex', justifyContent: 'center'}}>

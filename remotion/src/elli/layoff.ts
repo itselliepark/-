@@ -18,7 +18,8 @@ export const layoff: EditSpec = {
     {t: 8.32, text: '해고서류 받았을 때'},
     {t: 9.18, text: '그 자리에서 바로'},
     {t: 9.77, text: '사인하지 마세요!', style: 'red', label: '이게 제일 중요⚠️'},
-    {t: 10.56, text: 'BC주는 3개월 넘게 일했으면'},
+    {t: 10.56, text: 'BC주는'},
+    {t: 10.96, text: '3개월 넘게 일했으면', style: 'mint'},
     {t: 12.08, text: '1주, 1년이면 2주', style: 'mint'},
     {t: 13.14, text: '이런 식으로'},
     {t: 13.55, text: '최대 8주치 급여나', style: 'mint'},
@@ -79,17 +80,18 @@ export const layoff: EditSpec = {
   cards: [
     {start: 10.56, end: 16.62, kind: 'table', heading: 'BC주 해고 시 보장 (통보 또는 급여)',
       rows: [['3개월 이상', '1주'], ['1년 이상', '2주'], ['3년 이상', '3주 + 1년마다 1주'], ['최대', '8주']]},
-    {start: 24.43, end: 28.2, kind: 'table', heading: '용어 정리',
-      rows: [['ROE', '회사가 발급하는 고용 종료 기록'], ['EI', '캐나다 실업급여']]},
     {start: 36.93, end: 41.46, kind: 'warn', heading: '마지막 근무일부터 4주 안에 EI 신청!',
       rows: [['ROE 안 나왔어도 먼저 신청']]},
     {start: 43.6, end: 46.72, kind: 'check', heading: '퇴사 전 챙길 것',
       rows: [['상사 레퍼런스 레터'], ['링크드인 추천서']]},
   ],
-  cta: {start: 52.49, text: '저장해두고\n필요할 때 꺼내 보세요📌'},
+  tiles: [
+    {start: 24.43, end: 28.2, title: 'ROE', body: '회사가 발급하는\n고용 종료 기록'},
+    {start: 26.54, end: 28.2, title: 'EI', body: '캐나다\n실업급여'},
+  ],
   sfx: [
     {t: 0.05, kind: 'whoosh'}, {t: 1.74, kind: 'thud'}, {t: 7.82, kind: 'pop'}, {t: 9.77, kind: 'buzz'},
-    {t: 10.56, kind: 'pop'}, {t: 13.55, kind: 'ding'}, {t: 21.1, kind: 'pop'}, {t: 24.43, kind: 'pop'},
-    {t: 36.93, kind: 'buzz'}, {t: 41.46, kind: 'pop'}, {t: 43.6, kind: 'pop'}, {t: 52.49, kind: 'ding'},
+    {t: 10.56, kind: 'pop'}, {t: 13.55, kind: 'ding'}, {t: 21.1, kind: 'pop'}, {t: 24.43, kind: 'pop'}, {t: 26.54, kind: 'pop'},
+    {t: 36.93, kind: 'buzz'}, {t: 41.46, kind: 'pop'}, {t: 43.6, kind: 'pop'},
   ],
 };
