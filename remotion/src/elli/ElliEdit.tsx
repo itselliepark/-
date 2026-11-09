@@ -81,31 +81,69 @@ const Pop: React.FC<{from: number; children: React.ReactNode; style?: React.CSSP
   return <div style={{...style, transform: `scale(${0.8 + 0.2 * s})`, opacity: Math.min(1, s * 1.5)}}>{children}</div>;
 };
 
-const TipBadge: React.FC<{n: number; total: number; label: string}> = ({n, total, label}) => (
+
+// Card skins. 'solid' is the v3 look; the glass skins are frosted, rounded "Apple glass" variants.
+export type Skin = 'solid' | 'glass' | 'glassDark' | 'glassMint' | 'glassPills';
+type SkinDef = {surface: React.CSSProperties; heading: string; key: string; body: string; tip: React.CSSProperties; label: React.CSSProperties; pills?: boolean};
+const GLASS_FX: React.CSSProperties = {backdropFilter: 'blur(28px) saturate(180%)', WebkitBackdropFilter: 'blur(28px) saturate(180%)'};
+const SKINS: Record<Skin, SkinDef> = {
+  solid: {surface: {background: '#fff', borderRadius: 20, boxShadow: '0 12px 36px rgba(0,0,0,.28)'}, heading: C.ink, key: C.blue, body: '#333',
+    tip: {background: C.blue, color: '#fff'}, label: {background: '#fff', color: C.ink}},
+  glass: {surface: {...GLASS_FX, background: 'rgba(255,255,255,.30)', border: '1.5px solid rgba(255,255,255,.6)', borderRadius: 44,
+    boxShadow: 'inset 0 1.5px 0 rgba(255,255,255,.75), inset 0 -1px 0 rgba(255,255,255,.2), 0 18px 44px rgba(0,0,0,.18)'}, heading: '#111', key: C.blue, body: '#1d1d1f',
+    tip: {...GLASS_FX, background: 'rgba(1,97,198,.72)', color: '#fff', border: '1.5px solid rgba(255,255,255,.45)'},
+    label: {...GLASS_FX, background: 'rgba(255,255,255,.34)', color: '#111', border: '1.5px solid rgba(255,255,255,.6)'}},
+  glassDark: {surface: {...GLASS_FX, background: 'rgba(24,24,28,.42)', border: '1px solid rgba(255,255,255,.22)', borderRadius: 44,
+    boxShadow: 'inset 0 1px 0 rgba(255,255,255,.25), 0 18px 44px rgba(0,0,0,.25)'}, heading: '#fff', key: C.mint, body: 'rgba(255,255,255,.88)',
+    tip: {...GLASS_FX, background: 'rgba(1,97,198,.72)', color: '#fff', border: '1px solid rgba(255,255,255,.3)'},
+    label: {...GLASS_FX, background: 'rgba(24,24,28,.45)', color: '#fff', border: '1px solid rgba(255,255,255,.22)'}},
+  glassMint: {surface: {...GLASS_FX, background: 'linear-gradient(135deg, rgba(139,235,252,.42), rgba(255,255,255,.22))', border: '1.5px solid rgba(255,255,255,.6)', borderRadius: 44,
+    boxShadow: 'inset 0 1.5px 0 rgba(255,255,255,.7), 0 18px 44px rgba(10,85,102,.18)'}, heading: '#0b2f37', key: '#0161C6', body: '#12302f',
+    tip: {...GLASS_FX, background: 'rgba(1,97,198,.72)', color: '#fff', border: '1.5px solid rgba(255,255,255,.45)'},
+    label: {...GLASS_FX, background: 'rgba(139,235,252,.45)', color: '#0b2f37', border: '1.5px solid rgba(255,255,255,.6)'}},
+  glassPills: {surface: {...GLASS_FX, background: 'rgba(255,255,255,.32)', border: '1.5px solid rgba(255,255,255,.6)', borderRadius: 999,
+    boxShadow: 'inset 0 1.5px 0 rgba(255,255,255,.75), 0 12px 30px rgba(0,0,0,.16)'}, heading: '#111', key: C.blue, body: '#1d1d1f', pills: true,
+    tip: {...GLASS_FX, background: 'rgba(1,97,198,.72)', color: '#fff', border: '1.5px solid rgba(255,255,255,.45)'},
+    label: {...GLASS_FX, background: 'rgba(255,255,255,.34)', color: '#111', border: '1.5px solid rgba(255,255,255,.6)'}},
+};
+
+const TipBadge: React.FC<{n: number; total: number; label: string; skin: SkinDef}> = ({n, total, label, skin}) => (
   <div style={{position: 'absolute', top: SAFE_TOP, left: 0, right: 0, display: 'flex', justifyContent: 'center', gap: 12}}>
-    <span style={{background: C.blue, color: '#fff', fontFamily: 'PretendardB', fontSize: 34, padding: '8px 22px', borderRadius: 999}}>TIP {n}/{total}</span>
-    <span style={{background: '#fff', color: C.ink, fontFamily: 'PretendardB', fontSize: 34, padding: '8px 22px', borderRadius: 999}}>{label}</span>
+    <span style={{...skin.tip, fontFamily: 'PretendardB', fontSize: 34, padding: '8px 22px', borderRadius: 999}}>TIP {n}/{total}</span>
+    <span style={{...skin.label, fontFamily: 'PretendardB', fontSize: 34, padding: '8px 22px', borderRadius: 999}}>{label}</span>
   </div>
 );
 
-const InfoCard: React.FC<{card: Card; t: number}> = ({card, t}) => {
+const InfoCard: React.FC<{card: Card; t: number; skin: SkinDef}> = ({card, t, skin}) => {
   const warn = card.kind === 'warn';
+  const head = <div style={{fontFamily: 'PretendardB', fontSize: 35, color: warn ? '#E5484D' : skin.heading}}>{warn ? '⚠️ ' : ''}{card.heading}</div>;
+  const rows = card.rows.map((r, i) => (t < (card.rowTimes?.[i] ?? 0) ? null :
+    <div key={i} style={{display: 'flex', gap: 18, fontSize: 31, fontFamily: 'PretendardSB', color: skin.body, alignItems: 'baseline',
+      ...(skin.pills ? {...skin.surface, padding: '14px 30px', alignSelf: 'center'} : {})}}>
+      {card.kind === 'check' ? <span style={{color: '#1aa56a'}}>✓</span> : null}
+      <span style={{minWidth: r.length > 1 && !skin.pills ? 210 : 0, color: r.length > 1 ? skin.key : skin.body, fontFamily: r.length > 1 ? 'PretendardB' : 'PretendardSB'}}>{r[0]}</span>
+      {r[1] ? <span style={{background: i === card.rows.length - 1 && card.rows.length > 2 ? C.yellow : 'transparent', color: i === card.rows.length - 1 && card.rows.length > 2 ? C.ink : skin.body, borderRadius: 6, padding: '0 4px'}}>{r[1]}</span> : null}
+    </div>
+  ));
+  if (skin.pills) {
+    return (
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12}}>
+        <div style={{...skin.surface, padding: '14px 34px'}}>{head}</div>
+        {rows}
+      </div>
+    );
+  }
   return (
-    <div style={{width: 780, background: '#fff', borderRadius: 20, boxShadow: '0 12px 36px rgba(0,0,0,.28)', padding: '20px 30px', display: 'flex', flexDirection: 'column', gap: 10, position: 'relative'}}>
-      <div style={{fontFamily: 'PretendardB', fontSize: 35, color: warn ? '#C4302B' : C.ink}}>{warn ? '⚠️ ' : ''}{card.heading}</div>
-      {card.rows.map((r, i) => (t < (card.rowTimes?.[i] ?? 0) ? null :
-        <div key={i} style={{display: 'flex', gap: 18, fontSize: 31, fontFamily: 'PretendardSB', color: '#333', alignItems: 'baseline'}}>
-          {card.kind === 'check' ? <span style={{color: '#1aa56a'}}>✓</span> : null}
-          <span style={{minWidth: r.length > 1 ? 210 : 0, color: r.length > 1 ? C.blue : '#333'}}>{r[0]}</span>
-          {r[1] ? <span style={{background: i === card.rows.length - 1 && card.rows.length > 2 ? C.yellow : 'transparent'}}>{r[1]}</span> : null}
-        </div>
-      ))}
+    <div style={{...skin.surface, width: 780, padding: '24px 36px', display: 'flex', flexDirection: 'column', gap: 10, position: 'relative'}}>
+      {head}
+      {rows}
     </div>
   );
 };
 
-export const ElliEdit: React.FC<{spec: EditSpec}> = ({spec}) => {
+export const ElliEdit: React.FC<{spec: EditSpec; skin?: Skin}> = ({spec, skin: skinName = 'solid'}) => {
   useFonts();
+  const skin = SKINS[skinName] ?? SKINS.solid;
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
   const t = f / fps;
@@ -121,19 +159,19 @@ export const ElliEdit: React.FC<{spec: EditSpec}> = ({spec}) => {
         <OffthreadVideo src={staticFile(spec.video)} muted />
       </AbsoluteFill>
       {t < spec.title.end ? <Title spec={spec.title} f={f} fps={fps} /> : null}
-      {tip ? <Pop key={`tip${tip.n}`} from={Math.round(tip.start * fps)}><TipBadge n={tip.n} total={spec.total} label={tip.label} /></Pop> : null}
+      {tip ? <Pop key={`tip${tip.n}`} from={Math.round(tip.start * fps)}><TipBadge n={tip.n} total={spec.total} label={tip.label} skin={skin} /></Pop> : null}
       {card ? (
         <Pop key={card.start} from={Math.round(card.start * fps)} style={{position: 'absolute', top: SAFE_TOP + 80, left: 0, right: 0, display: 'flex', justifyContent: 'center'}}>
-          <InfoCard card={card} t={t} />
+          <InfoCard card={card} t={t} skin={skin} />
         </Pop>
       ) : null}
       {tiles.length ? (
         <div style={{position: 'absolute', top: SAFE_TOP + 80, left: 0, right: 0, display: 'flex', justifyContent: 'center', gap: 24}}>
           {tiles.map((x) => (
             <Pop key={x.title} from={Math.round(x.start * fps)}>
-              <div style={{width: 380, background: '#fff', borderRadius: 20, boxShadow: '0 12px 36px rgba(0,0,0,.28)', padding: '20px 26px', display: 'flex', flexDirection: 'column', gap: 6}}>
-                <div style={{fontFamily: 'PretendardB', fontSize: 44, color: C.blue}}>{x.title}</div>
-                <div style={{fontFamily: 'PretendardSB', fontSize: 30, color: '#333', lineHeight: 1.3, whiteSpace: 'pre-line'}}>{x.body}</div>
+              <div style={{...skin.surface, borderRadius: skin.pills ? 48 : skin.surface.borderRadius, width: 380, padding: '22px 30px', display: 'flex', flexDirection: 'column', gap: 6}}>
+                <div style={{fontFamily: 'PretendardB', fontSize: 44, color: skin.key}}>{x.title}</div>
+                <div style={{fontFamily: 'PretendardSB', fontSize: 30, color: skin.body, lineHeight: 1.3, whiteSpace: 'pre-line'}}>{x.body}</div>
               </div>
             </Pop>
           ))}
