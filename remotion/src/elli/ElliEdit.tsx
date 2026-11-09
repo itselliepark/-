@@ -83,7 +83,7 @@ const Pop: React.FC<{from: number; children: React.ReactNode; style?: React.CSSP
 
 
 // Card skins. 'solid' is the v3 look; the glass skins are frosted, rounded "Apple glass" variants.
-export type Skin = 'solid' | 'glass' | 'glassDark' | 'glassMint' | 'glassPills';
+export type Skin = 'solid' | 'glass' | 'glassDark' | 'glassMint' | 'glassPills' | 'frost65' | 'frost80';
 type SkinDef = {surface: React.CSSProperties; heading: string; key: string; body: string; tip: React.CSSProperties; label: React.CSSProperties; pills?: boolean};
 const GLASS_FX: React.CSSProperties = {backdropFilter: 'blur(28px) saturate(180%)', WebkitBackdropFilter: 'blur(28px) saturate(180%)'};
 const SKINS: Record<Skin, SkinDef> = {
@@ -93,6 +93,14 @@ const SKINS: Record<Skin, SkinDef> = {
     boxShadow: 'inset 0 1.5px 0 rgba(255,255,255,.75), inset 0 -1px 0 rgba(255,255,255,.2), 0 18px 44px rgba(0,0,0,.18)'}, heading: '#111', key: C.blue, body: '#1d1d1f',
     tip: {...GLASS_FX, background: 'rgba(1,97,198,.72)', color: '#fff', border: '1.5px solid rgba(255,255,255,.45)'},
     label: {...GLASS_FX, background: 'rgba(255,255,255,.34)', color: '#111', border: '1.5px solid rgba(255,255,255,.6)'}},
+  frost65: {surface: {...GLASS_FX, background: 'rgba(255,255,255,0.65)', border: '1.5px solid rgba(255,255,255,.8)', borderRadius: 44,
+    boxShadow: 'inset 0 1.5px 0 rgba(255,255,255,.9), 0 16px 40px rgba(0,0,0,.2)'}, heading: '#111', key: C.blue, body: '#2a2a2c',
+    tip: {...GLASS_FX, background: 'rgba(1,97,198,.85)', color: '#fff', border: '1.5px solid rgba(255,255,255,.5)'},
+    label: {...GLASS_FX, background: 'rgba(255,255,255,0.7)', color: '#111', border: '1.5px solid rgba(255,255,255,.8)'}},
+  frost80: {surface: {...GLASS_FX, background: 'rgba(255,255,255,0.8)', border: '1.5px solid rgba(255,255,255,.8)', borderRadius: 44,
+    boxShadow: 'inset 0 1.5px 0 rgba(255,255,255,.9), 0 16px 40px rgba(0,0,0,.2)'}, heading: '#111', key: C.blue, body: '#2a2a2c',
+    tip: {...GLASS_FX, background: 'rgba(1,97,198,.85)', color: '#fff', border: '1.5px solid rgba(255,255,255,.5)'},
+    label: {...GLASS_FX, background: 'rgba(255,255,255,0.85)', color: '#111', border: '1.5px solid rgba(255,255,255,.8)'}},
   glassDark: {surface: {...GLASS_FX, background: 'rgba(24,24,28,.42)', border: '1px solid rgba(255,255,255,.22)', borderRadius: 44,
     boxShadow: 'inset 0 1px 0 rgba(255,255,255,.25), 0 18px 44px rgba(0,0,0,.25)'}, heading: '#fff', key: C.mint, body: 'rgba(255,255,255,.88)',
     tip: {...GLASS_FX, background: 'rgba(1,97,198,.72)', color: '#fff', border: '1px solid rgba(255,255,255,.3)'},
