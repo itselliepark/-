@@ -156,6 +156,9 @@ export const ElliEdit: React.FC<{spec: EditSpec; skin?: Skin}> = ({spec, skin: s
   const {fps} = useVideoConfig();
   const t = f / fps;
   const zoomed = spec.zooms.some(([a, b]) => t >= a && t < b);
+  const scale = spec.framing
+    ? (spec.framing.filter(([s0]) => s0 <= t + 1e-6).pop()?.[1] ?? 1)
+    : zoomed ? 1.15 : 1;
   const subIdx = spec.subs.findIndex((s, i) => t >= s.t && t < (spec.subs[i + 1]?.t ?? spec.duration));
   const sub = subIdx >= 0 ? spec.subs[subIdx] : null;
   const tip = spec.tips.find((x) => t >= x.start && t < x.end);
@@ -163,7 +166,7 @@ export const ElliEdit: React.FC<{spec: EditSpec; skin?: Skin}> = ({spec, skin: s
   const tiles = (spec.tiles ?? []).filter((x) => t >= x.start && t < x.end);
   return (
     <AbsoluteFill style={{backgroundColor: '#000'}}>
-      <AbsoluteFill style={{transform: `scale(${zoomed ? 1.15 : 1})`, transformOrigin: '50% 38%'}}>
+      <AbsoluteFill style={{transform: `scale(${scale})`, transformOrigin: '50% 38%'}}>
         <OffthreadVideo src={staticFile(spec.video)} muted />
       </AbsoluteFill>
       {t < spec.title.end ? <Title spec={spec.title} f={f} fps={fps} /> : null}

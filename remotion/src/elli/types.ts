@@ -9,6 +9,8 @@ export type EditSpec = {
   title: {line1: string; line2: string; label?: string; end: number};
   subs: Sub[];
   zooms: [number, number][];
+  // Optional framing schedule [start s, scale]; when present it replaces `zooms`.
+  framing?: [number, number][];
   tips: {start: number; end: number; n: number; label: string}[];
   total: number;
   cards: Card[];
