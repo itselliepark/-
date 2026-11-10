@@ -10,9 +10,11 @@ export const C = {mint: '#8BEBFC', red: '#F85956', yellow: '#FBDB73', blue: '#01
 const SUB_Y = 1230; // ~64% of 1920
 const SAFE_TOP = 290; // keep top graphics below the Reels top UI dead zone (~15%)
 const EMPH_SHADOW = '0 2px 10px rgba(0,0,0,.75), 0 0 4px rgba(0,0,0,.6)'; // emphasis text: no outline, dark blurred halo (matches VLLO shadow)
+const RED_SHADOW = '0 2px 12px rgba(0,0,0,.95), 0 0 7px rgba(0,0,0,.9), 0 0 2px rgba(0,0,0,.8)'; // red emphasis: one step darker
 const FONTS: [string, string][] = [
   ['Anemone', 'fonts/Cafe24Anemone.ttf'],
   ['Kkubulim', 'fonts/BMkkubulim.ttf'],
+  ['Neujoh', 'fonts/Neujoh-Regular.ttf'],
   ['PretendardM', 'fonts/Pretendard-Medium.otf'],
   ['PretendardSB', 'fonts/Pretendard-SemiBold.otf'],
   ['PretendardB', 'fonts/Pretendard-Bold.otf'],
@@ -46,7 +48,7 @@ const Subtitle: React.FC<{sub: Sub; age: number}> = ({sub}) => {
       <div style={{...base, fontFamily: 'PretendardM', fontSize: 50, color: '#fff', textShadow: '0 2px 6px rgba(0,0,0,.75), 0 0 2px rgba(0,0,0,.8)'}}>{sub.text}</div>
     ) : (
       <div style={{...base, top: SUB_Y - 8, fontFamily: style === 'mint' ? 'Anemone' : 'Kkubulim', fontSize: style === 'mint' ? 66 : 70,
-        color: style === 'mint' ? C.mint : C.red, textShadow: EMPH_SHADOW}}>{sub.text}</div>
+        color: style === 'mint' ? C.mint : C.red, textShadow: style === 'red' ? RED_SHADOW : EMPH_SHADOW}}>{sub.text}</div>
     );
   return (
     <>
@@ -62,7 +64,7 @@ const Subtitle: React.FC<{sub: Sub; age: number}> = ({sub}) => {
 
 const Title: React.FC<{spec: EditSpec['title']; f: number; fps: number}> = ({spec, f, fps}) => {
   const reveal = (start: number) => interpolate(f, [start, start + 0.5 * fps], [100, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-  const line: React.CSSProperties = {fontFamily: 'Anemone', fontSize: 80, lineHeight: 1.15, textAlign: 'center', whiteSpace: 'nowrap'};
+  const line: React.CSSProperties = {fontFamily: 'Neujoh', fontSize: 84, lineHeight: 1.15, textAlign: 'center', whiteSpace: 'nowrap'};
   return (
     <div style={{position: 'absolute', top: SAFE_TOP, left: 0, right: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6}}>
       <div style={{...line, color: '#fff', textShadow: EMPH_SHADOW, clipPath: `inset(0 ${reveal(0)}% 0 0)`}}>{spec.line1}</div>
@@ -85,7 +87,8 @@ const Pop: React.FC<{from: number; children: React.ReactNode; style?: React.CSSP
 // Card skins. 'solid' is the v3 look; the glass skins are frosted, rounded "Apple glass" variants.
 export type Skin = 'solid' | 'glass' | 'glassDark' | 'glassMint' | 'glassPills' | 'frost65' | 'frost80';
 type SkinDef = {surface: React.CSSProperties; heading: string; key: string; body: string; tip: React.CSSProperties; label: React.CSSProperties; pills?: boolean};
-const GLASS_FX: React.CSSProperties = {backdropFilter: 'blur(28px) saturate(180%)', WebkitBackdropFilter: 'blur(28px) saturate(180%)'};
+// Heavy blur so a card looks the same over the wall and over dark hair.
+const GLASS_FX: React.CSSProperties = {backdropFilter: 'blur(70px) brightness(1.12) saturate(160%)', WebkitBackdropFilter: 'blur(70px) brightness(1.12) saturate(160%)'};
 const SKINS: Record<Skin, SkinDef> = {
   solid: {surface: {background: '#fff', borderRadius: 20, boxShadow: '0 12px 36px rgba(0,0,0,.28)'}, heading: C.ink, key: C.blue, body: '#333',
     tip: {background: C.blue, color: '#fff'}, label: {background: '#fff', color: C.ink}},
@@ -126,10 +129,10 @@ const InfoCard: React.FC<{card: Card; t: number; skin: SkinDef}> = ({card, t, sk
   const warn = card.kind === 'warn';
   const head = <div style={{fontFamily: 'PretendardB', fontSize: 35, color: warn ? '#E5484D' : skin.heading}}>{warn ? '⚠️ ' : ''}{card.heading}</div>;
   const rows = card.rows.map((r, i) => (t < (card.rowTimes?.[i] ?? 0) ? null :
-    <div key={i} style={{display: 'flex', gap: 18, fontSize: 31, fontFamily: 'PretendardSB', color: skin.body, alignItems: 'baseline',
+    <div key={i} style={{display: 'flex', gap: card.rows.length >= 4 ? 12 : 18, fontSize: 31, fontFamily: 'PretendardSB', color: skin.body, alignItems: 'baseline',
       ...(skin.pills ? {...skin.surface, padding: '14px 30px', alignSelf: 'center'} : {})}}>
       {card.kind === 'check' ? <span style={{color: '#1aa56a'}}>✓</span> : null}
-      <span style={{minWidth: r.length > 1 && !skin.pills ? (card.plain ? 250 : 210) : 0, color: r.length > 1 ? skin.key : skin.body, fontFamily: r.length > 1 ? 'PretendardB' : 'PretendardSB'}}>{r[0]}</span>
+      <span style={{minWidth: r.length > 1 && !skin.pills ? (card.plain ? 250 : card.rows.length >= 4 ? 140 : 210) : 0, color: r.length > 1 ? skin.key : skin.body, fontFamily: r.length > 1 ? 'PretendardB' : 'PretendardSB'}}>{r[0]}</span>
       {r[1] ? <span style={{background: !card.plain && i === card.rows.length - 1 && card.rows.length > 2 ? C.yellow : 'transparent', color: !card.plain && i === card.rows.length - 1 && card.rows.length > 2 ? C.ink : skin.body, borderRadius: 6, padding: '0 4px'}}>{r[1]}</span> : null}
     </div>
   ));
@@ -142,9 +145,9 @@ const InfoCard: React.FC<{card: Card; t: number; skin: SkinDef}> = ({card, t, sk
     );
   }
   return (
-    <div style={{...skin.surface, width: 780, padding: '24px 36px', display: 'flex', flexDirection: 'column', gap: 10, position: 'relative'}}>
+    <div style={{...skin.surface, width: card.rows.length >= 4 ? 850 : 780, padding: '24px 36px', display: 'flex', flexDirection: 'column', gap: 10, position: 'relative', whiteSpace: 'nowrap'}}>
       {head}
-      {rows}
+      {card.rows.length >= 4 ? <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px 24px'}}>{rows}</div> : rows}
       {card.note ? <div style={{fontFamily: 'PretendardM', fontSize: 22, color: skin.body, opacity: 0.6, marginTop: 2}}>{card.note}</div> : null}
     </div>
   );

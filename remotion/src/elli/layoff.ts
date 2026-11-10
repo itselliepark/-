@@ -92,7 +92,7 @@ export const layoff: EditSpec = {
   total: 3,
   cards: [
     {start: 10.56, end: 16.62, kind: 'table', heading: 'BC주 해고 시 보장 (통보 또는 급여)',
-      rows: [['3개월 이상', '1주'], ['1년 이상', '2주'], ['3년 이상', '3주 + 1년마다 1주'], ['최대', '8주']]},
+      rows: [['3개월 이상', '1주'], ['1년 이상', '2주'], ['3년 이상', '3주 + 매년 1주'], ['최대', '8주']]},
     // Figures checked against canada.ca (EI regular benefits, Nov 2026).
     {start: 29.6, end: 34.9, kind: 'table', heading: 'ROE의 근무시간 · 급여로 정해지는 것', plain: true, note: '출처: canada.ca · EI 일반급여 (2026)',
       rows: [['받을 수 있는지', '최근 52주 420~700시간 근무'], ['얼마씩', '평균 주급의 55% (최대 주 $729)'], ['몇 주 동안', '14~45주']],
