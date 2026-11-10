@@ -4,7 +4,6 @@ import type {EditSpec} from './types';
 export const layoff: EditSpec = {
   video: 'media/layoff.mp4',
   duration: 56.35,
-  title: {line1: '캐나다에서 해고당했을 때', line2: '꼭 해야 할 3가지', label: '직접 정리해고 당해본 사람이 알려줌⭐', end: 7.82},
   subs: [
     {t: 0.04, text: '캐나다 첫 직장에서'},
     {t: 0.8, text: '1년 2개월 만에'},
@@ -68,22 +67,8 @@ export const layoff: EditSpec = {
     {t: 54.36, text: '딱 이 3가지', style: 'mint'},
     {t: 55.01, text: '저장하고 필요할 때 꺼내 보세요'},
   ],
-  // Framing schedule [start s, scale]: changes at raw jump cuts and phrase boundaries; emphasis lines punch in to 1.15.
-  framing: [
-    [0.00, 1.0], [1.74, 1.15], [3.06, 1.08], [4.08, 1.0], [5.10, 1.0], [6.62, 1.15],
-    [7.82, 1.08], [9.18, 1.0], [10.56, 1.08], [12.08, 1.15], [13.13, 1.08], [14.60, 1.0],
-    [15.44, 1.15], [16.57, 1.08], [18.18, 1.0], [19.86, 1.15], [21.07, 1.08], [22.74, 1.15],
-    [24.43, 1.0], [25.48, 1.08], [26.54, 1.08], [28.20, 1.0], [29.60, 1.08], [30.30, 1.15],
-    [31.32, 1.0], [32.62, 1.15], [33.52, 1.08], [34.90, 1.0], [35.91, 1.08], [36.93, 1.15],
-    [38.00, 1.08], [39.08, 1.08], [40.42, 1.15], [41.46, 1.0], [42.97, 1.08], [43.94, 1.15],
-    [45.21, 1.08], [46.72, 1.0], [47.73, 1.08], [48.74, 1.08], [50.39, 1.15], [51.43, 1.0],
-    [52.44, 1.08], [53.44, 1.08], [54.36, 1.15], [55.01, 1.0],
-  ],
-  // 1.15x punch-ins, switched abruptly (on the cut), per guide §03.
-  zooms: [
-    [1.74, 3.06], [6.62, 7.82], [9.77, 10.56], [15.44, 16.62], [19.86, 21.1],
-    [22.74, 24.43], [30.3, 31.32], [32.62, 33.52], [36.93, 39.08], [40.42, 41.46], [50.39, 51.43], [54.36, 55.01],
-  ],
+  // Punch-ins (1.15x) only where the line truly needs emphasis: the hook, the two warnings and the closing line.
+  zooms: [[1.74, 3.06], [9.77, 10.56], [36.93, 39.08], [54.36, 55.01]],
   tips: [
     {start: 7.82, end: 21.1, n: 1, label: '급여 + 통보기간 체크'},
     {start: 21.1, end: 41.46, n: 2, label: 'ROE + EI'},
@@ -107,7 +92,7 @@ export const layoff: EditSpec = {
     {start: 26.54, end: 28.2, title: 'EI', body: '캐나다\n실업급여'},
   ],
   sfx: [
-    {t: 0.05, kind: 'whoosh'}, {t: 1.74, kind: 'thud'}, {t: 7.82, kind: 'pop'}, {t: 9.77, kind: 'buzz'},
+    {t: 1.74, kind: 'thud'}, {t: 7.82, kind: 'pop'}, {t: 9.77, kind: 'buzz'},
     {t: 10.56, kind: 'pop'}, {t: 13.55, kind: 'ding'}, {t: 21.1, kind: 'pop'}, {t: 24.43, kind: 'pop'}, {t: 26.54, kind: 'pop'}, {t: 29.6, kind: 'pop'}, {t: 32.62, kind: 'ding'},
     {t: 36.93, kind: 'buzz'}, {t: 41.46, kind: 'pop'}, {t: 43.6, kind: 'pop'},
   ],

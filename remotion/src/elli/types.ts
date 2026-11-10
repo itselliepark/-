@@ -6,7 +6,7 @@ export type Sfx = {t: number; kind: 'pop' | 'whoosh' | 'ding' | 'buzz' | 'thud'}
 export type EditSpec = {
   video: string;
   duration: number;
-  title: {line1: string; line2: string; label?: string; end: number};
+  title?: {line1: string; line2: string; label?: string; end: number};
   subs: Sub[];
   zooms: [number, number][];
   // Optional framing schedule [start s, scale]; when present it replaces `zooms`.

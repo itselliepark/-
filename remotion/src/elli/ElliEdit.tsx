@@ -62,7 +62,7 @@ const Subtitle: React.FC<{sub: Sub; age: number}> = ({sub}) => {
   );
 };
 
-const Title: React.FC<{spec: EditSpec['title']; f: number; fps: number}> = ({spec, f, fps}) => {
+const Title: React.FC<{spec: NonNullable<EditSpec['title']>; f: number; fps: number}> = ({spec, f, fps}) => {
   const reveal = (start: number) => interpolate(f, [start, start + 0.5 * fps], [100, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
   const line: React.CSSProperties = {fontFamily: 'Neujoh', fontSize: 84, lineHeight: 1.15, textAlign: 'center', whiteSpace: 'nowrap'};
   return (
@@ -173,7 +173,7 @@ export const ElliEdit: React.FC<{spec: EditSpec; skin?: Skin}> = ({spec, skin: s
       <AbsoluteFill style={{transform: `scale(${scale})`, transformOrigin: '50% 38%'}}>
         <OffthreadVideo src={staticFile(spec.video)} muted />
       </AbsoluteFill>
-      {t < spec.title.end ? <Title spec={spec.title} f={f} fps={fps} /> : null}
+      {spec.title && t < spec.title.end ? <Title spec={spec.title} f={f} fps={fps} /> : null}
       {tip ? <Pop key={`tip${tip.n}`} from={Math.round(tip.start * fps)}><TipBadge n={tip.n} total={spec.total} label={tip.label} skin={skin} /></Pop> : null}
       {card ? (
         <Pop key={card.start} from={Math.round(card.start * fps)} style={{position: 'absolute', top: SAFE_TOP + 80, left: 0, right: 0, display: 'flex', justifyContent: 'center'}}>
