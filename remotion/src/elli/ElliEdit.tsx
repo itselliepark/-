@@ -129,8 +129,8 @@ const InfoCard: React.FC<{card: Card; t: number; skin: SkinDef}> = ({card, t, sk
     <div key={i} style={{display: 'flex', gap: 18, fontSize: 31, fontFamily: 'PretendardSB', color: skin.body, alignItems: 'baseline',
       ...(skin.pills ? {...skin.surface, padding: '14px 30px', alignSelf: 'center'} : {})}}>
       {card.kind === 'check' ? <span style={{color: '#1aa56a'}}>✓</span> : null}
-      <span style={{minWidth: r.length > 1 && !skin.pills ? 210 : 0, color: r.length > 1 ? skin.key : skin.body, fontFamily: r.length > 1 ? 'PretendardB' : 'PretendardSB'}}>{r[0]}</span>
-      {r[1] ? <span style={{background: i === card.rows.length - 1 && card.rows.length > 2 ? C.yellow : 'transparent', color: i === card.rows.length - 1 && card.rows.length > 2 ? C.ink : skin.body, borderRadius: 6, padding: '0 4px'}}>{r[1]}</span> : null}
+      <span style={{minWidth: r.length > 1 && !skin.pills ? (card.plain ? 250 : 210) : 0, color: r.length > 1 ? skin.key : skin.body, fontFamily: r.length > 1 ? 'PretendardB' : 'PretendardSB'}}>{r[0]}</span>
+      {r[1] ? <span style={{background: !card.plain && i === card.rows.length - 1 && card.rows.length > 2 ? C.yellow : 'transparent', color: !card.plain && i === card.rows.length - 1 && card.rows.length > 2 ? C.ink : skin.body, borderRadius: 6, padding: '0 4px'}}>{r[1]}</span> : null}
     </div>
   ));
   if (skin.pills) {
@@ -145,6 +145,7 @@ const InfoCard: React.FC<{card: Card; t: number; skin: SkinDef}> = ({card, t, sk
     <div style={{...skin.surface, width: 780, padding: '24px 36px', display: 'flex', flexDirection: 'column', gap: 10, position: 'relative'}}>
       {head}
       {rows}
+      {card.note ? <div style={{fontFamily: 'PretendardM', fontSize: 22, color: skin.body, opacity: 0.6, marginTop: 2}}>{card.note}</div> : null}
     </div>
   );
 };
