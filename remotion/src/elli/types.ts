@@ -1,6 +1,6 @@
 export type SubStyle = 'normal' | 'mint' | 'red';
 export type Sub = {t: number; text: string; style?: SubStyle; label?: string};
-export type Card = {start: number; end: number; kind: 'table' | 'warn' | 'check'; heading: string; rows: string[][]; rowTimes?: number[]; plain?: boolean; note?: string};
+export type Card = {start: number; end: number; kind: 'table' | 'warn' | 'check'; heading: string; rows: string[][]; rowTimes?: number[]; plain?: boolean; note?: string; alpha?: number};
 export type Sfx = {t: number; kind: 'pop' | 'whoosh' | 'ding' | 'buzz' | 'thud'};
 
 export type EditSpec = {
@@ -14,6 +14,8 @@ export type EditSpec = {
   tips: {start: number; end: number; n: number; label: string}[];
   total: number;
   cards: Card[];
+  // White opacity for cards and tiles (overrides the skin); a card's own `alpha` wins.
+  cardAlpha?: number;
   // Term tiles: each pops in when its term is spoken and sits side by side with the others.
   tiles?: {start: number; end: number; title: string; body: string}[];
   cta?: {start: number; text: string};

@@ -87,8 +87,7 @@ const Pop: React.FC<{from: number; children: React.ReactNode; style?: React.CSSP
 // Card skins. 'solid' is the v3 look; the glass skins are frosted, rounded "Apple glass" variants.
 export type Skin = 'solid' | 'glass' | 'glassDark' | 'glassMint' | 'glassPills' | 'frost65' | 'frost80';
 type SkinDef = {surface: React.CSSProperties; heading: string; key: string; body: string; tip: React.CSSProperties; label: React.CSSProperties; pills?: boolean};
-// Heavy blur so a card looks the same over the wall and over dark hair.
-const GLASS_FX: React.CSSProperties = {backdropFilter: 'blur(70px) brightness(1.12) saturate(160%)', WebkitBackdropFilter: 'blur(70px) brightness(1.12) saturate(160%)'};
+const GLASS_FX: React.CSSProperties = {backdropFilter: 'blur(28px) saturate(180%)', WebkitBackdropFilter: 'blur(28px) saturate(180%)'};
 const SKINS: Record<Skin, SkinDef> = {
   solid: {surface: {background: '#fff', borderRadius: 20, boxShadow: '0 12px 36px rgba(0,0,0,.28)'}, heading: C.ink, key: C.blue, body: '#333',
     tip: {background: C.blue, color: '#fff'}, label: {background: '#fff', color: C.ink}},
@@ -125,14 +124,14 @@ const TipBadge: React.FC<{n: number; total: number; label: string; skin: SkinDef
   </div>
 );
 
-const InfoCard: React.FC<{card: Card; t: number; skin: SkinDef}> = ({card, t, skin}) => {
+const InfoCard: React.FC<{card: Card; t: number; skin: SkinDef; alpha?: number}> = ({card, t, skin, alpha}) => {
   const warn = card.kind === 'warn';
   const head = <div style={{fontFamily: 'PretendardB', fontSize: 35, color: warn ? '#E5484D' : skin.heading}}>{warn ? '⚠️ ' : ''}{card.heading}</div>;
   const rows = card.rows.map((r, i) => (t < (card.rowTimes?.[i] ?? 0) ? null :
-    <div key={i} style={{display: 'flex', gap: card.rows.length >= 4 ? 12 : 18, fontSize: 31, fontFamily: 'PretendardSB', color: skin.body, alignItems: 'baseline',
+    <div key={i} style={{display: 'flex', gap: 18, fontSize: 31, fontFamily: 'PretendardSB', color: skin.body, alignItems: 'baseline',
       ...(skin.pills ? {...skin.surface, padding: '14px 30px', alignSelf: 'center'} : {})}}>
       {card.kind === 'check' ? <span style={{color: '#1aa56a'}}>✓</span> : null}
-      <span style={{minWidth: r.length > 1 && !skin.pills ? (card.plain ? 250 : card.rows.length >= 4 ? 140 : 210) : 0, color: r.length > 1 ? skin.key : skin.body, fontFamily: r.length > 1 ? 'PretendardB' : 'PretendardSB'}}>{r[0]}</span>
+      <span style={{minWidth: r.length > 1 && !skin.pills ? (card.plain ? 250 : 210) : 0, color: r.length > 1 ? skin.key : skin.body, fontFamily: r.length > 1 ? 'PretendardB' : 'PretendardSB'}}>{r[0]}</span>
       {r[1] ? <span style={{background: !card.plain && i === card.rows.length - 1 && card.rows.length > 2 ? C.yellow : 'transparent', color: !card.plain && i === card.rows.length - 1 && card.rows.length > 2 ? C.ink : skin.body, borderRadius: 6, padding: '0 4px'}}>{r[1]}</span> : null}
     </div>
   ));
@@ -145,9 +144,9 @@ const InfoCard: React.FC<{card: Card; t: number; skin: SkinDef}> = ({card, t, sk
     );
   }
   return (
-    <div style={{...skin.surface, width: card.rows.length >= 4 ? 850 : 780, padding: '24px 36px', display: 'flex', flexDirection: 'column', gap: 10, position: 'relative', whiteSpace: 'nowrap'}}>
+    <div style={{...skin.surface, width: 780, padding: '24px 36px', display: 'flex', flexDirection: 'column', gap: 10, position: 'relative', whiteSpace: 'nowrap', ...(alpha ? {background: `rgba(255,255,255,${alpha})`} : {})}}>
       {head}
-      {card.rows.length >= 4 ? <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px 24px'}}>{rows}</div> : rows}
+      {rows}
       {card.note ? <div style={{fontFamily: 'PretendardM', fontSize: 22, color: skin.body, opacity: 0.6, marginTop: 2}}>{card.note}</div> : null}
     </div>
   );
@@ -177,14 +176,14 @@ export const ElliEdit: React.FC<{spec: EditSpec; skin?: Skin}> = ({spec, skin: s
       {tip ? <Pop key={`tip${tip.n}`} from={Math.round(tip.start * fps)}><TipBadge n={tip.n} total={spec.total} label={tip.label} skin={skin} /></Pop> : null}
       {card ? (
         <Pop key={card.start} from={Math.round(card.start * fps)} style={{position: 'absolute', top: SAFE_TOP + 80, left: 0, right: 0, display: 'flex', justifyContent: 'center'}}>
-          <InfoCard card={card} t={t} skin={skin} />
+          <InfoCard card={card} t={t} skin={skin} alpha={card.alpha ?? spec.cardAlpha} />
         </Pop>
       ) : null}
       {tiles.length ? (
         <div style={{position: 'absolute', top: SAFE_TOP + 80, left: 0, right: 0, display: 'flex', justifyContent: 'center', gap: 24}}>
           {tiles.map((x) => (
             <Pop key={x.title} from={Math.round(x.start * fps)}>
-              <div style={{...skin.surface, borderRadius: skin.pills ? 48 : skin.surface.borderRadius, width: 380, padding: '22px 30px', display: 'flex', flexDirection: 'column', gap: 6}}>
+              <div style={{...skin.surface, ...(spec.cardAlpha ? {background: `rgba(255,255,255,${spec.cardAlpha})`} : {}), borderRadius: skin.pills ? 48 : skin.surface.borderRadius, width: 380, padding: '22px 30px', display: 'flex', flexDirection: 'column', gap: 6}}>
                 <div style={{fontFamily: 'PretendardB', fontSize: 44, color: skin.key}}>{x.title}</div>
                 <div style={{fontFamily: 'PretendardSB', fontSize: 30, color: skin.body, lineHeight: 1.3, whiteSpace: 'pre-line'}}>{x.body}</div>
               </div>
