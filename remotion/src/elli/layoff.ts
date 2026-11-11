@@ -68,7 +68,7 @@ export const layoff: EditSpec = {
     {t: 55.01, text: '저장하고 필요할 때 꺼내 보세요'},
   ],
   // Punch-ins (1.15x) only where the line truly needs emphasis: the hook, the two warnings and the closing line.
-  zooms: [[1.74, 3.06], [9.77, 10.56], [36.93, 39.08], [54.36, 55.01]],
+  zooms: [[1.74, 3.06], [6.62, 7.82], [9.77, 10.56], [19.86, 21.1], [21.54, 22.74], [36.93, 39.08], [50.39, 51.43], [54.36, 55.01]],
   tips: [
     {start: 7.82, end: 21.1, n: 1, label: '급여 + 통보기간 체크'},
     {start: 21.1, end: 41.46, n: 2, label: 'ROE + EI'},
@@ -92,9 +92,5 @@ export const layoff: EditSpec = {
     {start: 24.43, end: 28.2, title: 'ROE', body: '회사가 발급하는\n고용 종료 기록'},
     {start: 26.54, end: 28.2, title: 'EI', body: '캐나다\n실업급여'},
   ],
-  sfx: [
-    {t: 1.74, kind: 'thud'}, {t: 7.82, kind: 'pop'}, {t: 9.77, kind: 'buzz'},
-    {t: 10.56, kind: 'pop'}, {t: 13.55, kind: 'ding'}, {t: 21.1, kind: 'pop'}, {t: 24.43, kind: 'pop'}, {t: 26.54, kind: 'pop'}, {t: 29.6, kind: 'pop'}, {t: 32.62, kind: 'ding'},
-    {t: 36.93, kind: 'buzz'}, {t: 41.46, kind: 'pop'}, {t: 43.6, kind: 'pop'},
-  ],
+  sfx: [], // no sound effects (Elli's call, v8 feedback)
 };
