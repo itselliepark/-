@@ -1,4 +1,4 @@
-export type SubStyle = 'normal' | 'mint' | 'red';
+export type SubStyle = 'normal' | 'mint' | 'red' | 'yellow';
 export type Sub = {t: number; text: string; style?: SubStyle; label?: string};
 export type Card = {start: number; end: number; kind: 'table' | 'warn' | 'check'; heading: string; rows: string[][]; rowTimes?: number[]; plain?: boolean; note?: string; alpha?: number};
 export type Sfx = {t: number; kind: 'pop' | 'whoosh' | 'ding' | 'buzz' | 'thud'};

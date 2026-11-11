@@ -48,7 +48,7 @@ const Subtitle: React.FC<{sub: Sub; age: number}> = ({sub}) => {
       <div style={{...base, fontFamily: 'PretendardM', fontSize: 50, color: '#fff', textShadow: '0 2px 6px rgba(0,0,0,.75), 0 0 2px rgba(0,0,0,.8)'}}>{sub.text}</div>
     ) : (
       <div style={{...base, top: SUB_Y - 8, fontFamily: style === 'mint' ? 'Anemone' : 'Kkubulim', fontSize: style === 'mint' ? 66 : 70,
-        color: style === 'mint' ? C.mint : C.red, textShadow: style === 'red' ? RED_SHADOW : EMPH_SHADOW}}>{sub.text}</div>
+        color: style === 'mint' ? C.mint : style === 'yellow' ? C.yellow : C.red, textShadow: style === 'mint' ? EMPH_SHADOW : RED_SHADOW}}>{sub.text}</div>
     );
   return (
     <>

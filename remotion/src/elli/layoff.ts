@@ -43,7 +43,7 @@ export const layoff: EditSpec = {
     {t: 31.32, text: '내가 EI를 받을 수 있는지'},
     {t: 32.62, text: '얼마씩, 몇 주 동안', style: 'mint'},
     {t: 33.52, text: '받는지가 정해지거든요'},
-    {t: 34.9, text: '근데 여기서 중요한 건'},
+    {t: 34.9, text: '근데 여기서 중요한 건', style: 'yellow'},
     {t: 35.86, text: 'EI는 마지막 근무일부터'},
     {t: 36.93, text: '4주가 지나면', style: 'mint'},
     {t: 38.0, text: '혜택을 잃을 수도 있어서', style: 'red'},
@@ -68,7 +68,7 @@ export const layoff: EditSpec = {
     {t: 55.01, text: '저장하고 필요할 때 꺼내 보세요'},
   ],
   // Punch-ins (1.15x) only where the line truly needs emphasis: the hook, the two warnings and the closing line.
-  zooms: [[1.74, 3.06], [6.62, 7.82], [9.77, 10.56], [19.86, 21.1], [21.54, 22.74], [36.93, 39.08], [50.39, 51.43], [54.36, 55.01]],
+  zooms: [[1.74, 3.06], [6.62, 7.82], [9.77, 10.56], [19.86, 21.1], [21.54, 22.74], [34.9, 35.86], [36.93, 39.08], [50.39, 51.43], [54.36, 55.01]],
   tips: [
     {start: 7.82, end: 21.1, n: 1, label: '급여 + 통보기간 체크'},
     {start: 21.1, end: 41.46, n: 2, label: 'ROE + EI'},
