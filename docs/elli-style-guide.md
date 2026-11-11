@@ -2,7 +2,7 @@
 
 - 승인: 2026-11-09, 테스트 편집본 v4(캐나다 해고 3가지) 기준
 - 검토용 페이지: https://claude.ai/artifact/CVf4n38vzjaJADyryFVoF3
-- 구현: `remotion/src/elli/ElliEdit.tsx` (스킨 `frost80`), 편집 데이터 예시 `remotion/src/elli/layoff.ts`, 오디오 `scripts/mix_audio.py`
+- 구현: `remotion/src/elli/ElliEdit.tsx` (스킨 `frost80`), 편집 데이터 예시 `remotion/src/elli/layoff.ts`, 오디오 `scripts/voice_master.py`
 
 ## 1. 형식과 종류
 - 1080×1920 세로, 30fps, 45–60초. 1분을 넘기지 않는다.
@@ -64,12 +64,12 @@
 ## 7. 사운드
 - 배경음악은 넣지 않는다(엘리가 업로드 전에 직접 깐다).
 - 효과음은 넣지 않는다.
-- 목소리를 −16 LUFS(true peak −1.5 dB)로 맞춰 넘긴다.
+- 보이스 마스터링(`scripts/voice_master.py`): 나중에 배경음악을 깔아도 목소리가 또렷하도록 저음 잡음 컷(85Hz), 가벼운 컴프레션(3:1), 3.2kHz 선명도 +2.5dB를 넣고 −14 LUFS(true peak −1.5 dB)로 맞춘다. 배경음악은 편집 앱에서 목소리보다 약 18~20dB 작게(음악 볼륨 10~15%) 깔면 된다.
 
 ## 8. 작업 흐름
 1. 원본을 드라이브 elliemomento 폴더에서 받는다.
 2. whisper.cpp(small, ko)로 단어 단위 받아쓰기 → 자막 덩어리·강조·라벨을 편집 데이터(`src/elli/<영상>.ts`)로 작성.
    - 받아쓰기 직후, 영상에 넣으면 좋을 실제 자료(화면 캡처, 서류·이메일 사진, 공식 사이트 화면 등)를 시점과 함께 목록으로 정리해 엘리에게 요청한다. 직접 만든 그래픽보다 실제 캡처·사진을 우선한다(신빙성). 자료가 오기 전에는 그 자리를 설명 카드로 채워 초안을 만든다.
-3. Remotion으로 렌더(`--muted`), `scripts/mix_audio.py`로 오디오 믹스, 합친다.
+3. Remotion으로 렌더(`--muted`), `scripts/voice_master.py`로 보이스 마스터링, 합친다.
 4. 피드백 보드(https://claude.ai/artifact/QzqtACoRjN5Qv9x6duvdgr)에 버전을 올려 코멘트를 받는다.
 5. 가이드 규칙에 비춰 점검한 뒤 넘긴다.
