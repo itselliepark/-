@@ -152,6 +152,25 @@ const InfoCard: React.FC<{card: Card; t: number; skin: SkinDef; alpha?: number}>
   );
 };
 
+
+const IconMark: React.FC<{kind: 'youtube' | 'instagram' | 'emoji'; emoji?: string}> = ({kind, emoji}) => {
+  const box: React.CSSProperties = {width: 150, height: 150, borderRadius: 38, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 12px 30px rgba(0,0,0,.25)'};
+  if (kind === 'youtube') {
+    return <div style={{...box, background: '#FF0000'}}><div style={{width: 0, height: 0, borderTop: '30px solid transparent', borderBottom: '30px solid transparent', borderLeft: '52px solid #fff', marginLeft: 12}} /></div>;
+  }
+  if (kind === 'instagram') {
+    return (
+      <div style={{...box, background: 'radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%)'}}>
+        <div style={{width: 84, height: 84, border: '9px solid #fff', borderRadius: 26, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <div style={{width: 34, height: 34, border: '9px solid #fff', borderRadius: '50%'}} />
+          <div style={{position: 'absolute', top: 6, right: 6, width: 11, height: 11, background: '#fff', borderRadius: '50%'}} />
+        </div>
+      </div>
+    );
+  }
+  return <div style={{...box, background: 'rgba(255,255,255,.85)', fontSize: 88}}>{emoji}</div>;
+};
+
 export const ElliEdit: React.FC<{spec: EditSpec; skin?: Skin}> = ({spec, skin: skinName = 'solid'}) => {
   useFonts();
   const skin = SKINS[skinName] ?? SKINS.solid;
@@ -167,6 +186,8 @@ export const ElliEdit: React.FC<{spec: EditSpec; skin?: Skin}> = ({spec, skin: s
   const tip = spec.tips.find((x) => t >= x.start && t < x.end);
   const card = spec.cards.find((c) => t >= c.start && t < c.end);
   const tiles = (spec.tiles ?? []).filter((x) => t >= x.start && t < x.end);
+  const icons = (spec.icons ?? []).filter((x) => t < x.end);
+  const bubbles = (spec.bubbles ?? []).filter((x) => t >= x.start && t < x.end);
   return (
     <AbsoluteFill style={{backgroundColor: '#000'}}>
       <AbsoluteFill style={{transform: `scale(${scale})`, transformOrigin: '50% 38%'}}>
@@ -189,6 +210,32 @@ export const ElliEdit: React.FC<{spec: EditSpec; skin?: Skin}> = ({spec, skin: s
               </div>
             </Pop>
           ))}
+        </div>
+      ) : null}
+      {icons.length && t >= Math.min(...icons.map((x) => x.start)) ? (
+        <div style={{position: 'absolute', top: SAFE_TOP + 40, left: 0, right: 0, display: 'flex', justifyContent: 'center', gap: 56}}>
+          {icons.map((x) => (
+            <div key={x.label} style={{width: 190, visibility: t >= x.start ? 'visible' : 'hidden'}}>
+              <Pop from={Math.round(x.start * fps)} style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14}}>
+                <IconMark kind={x.kind} emoji={x.emoji} />
+                <span style={{fontFamily: 'PretendardB', fontSize: 34, color: '#fff', textShadow: EMPH_SHADOW}}>{x.label}</span>
+              </Pop>
+            </div>
+          ))}
+        </div>
+      ) : null}
+      {bubbles.length ? (
+        <div style={{position: 'absolute', top: SAFE_TOP + 30, left: 0, right: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 22}}>
+          {bubbles.map((x) => {
+            const i = (spec.bubbles ?? []).indexOf(x);
+            return (
+              <div key={x.text} style={{transform: `translateX(${i % 2 ? 70 : -70}px) rotate(${i % 2 ? 2.5 : -3}deg)`}}>
+                <Pop from={Math.round(x.start * fps)}>
+                  <div style={{...skin.surface, background: 'rgba(255,255,255,.82)', borderRadius: 999, padding: '18px 40px', fontFamily: 'PretendardB', fontSize: 44, color: C.ink, whiteSpace: 'nowrap'}}>{x.text}</div>
+                </Pop>
+              </div>
+            );
+          })}
         </div>
       ) : null}
       {spec.cta && t >= spec.cta.start ? (

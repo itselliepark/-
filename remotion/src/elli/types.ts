@@ -18,6 +18,10 @@ export type EditSpec = {
   cardAlpha?: number;
   // Term tiles: each pops in when its term is spoken and sits side by side with the others.
   tiles?: {start: number; end: number; title: string; body: string}[];
+  // Icon row: each icon pops in at its own start, left to right.
+  icons?: {start: number; end: number; kind: 'youtube' | 'instagram' | 'emoji'; emoji?: string; label: string}[];
+  // Casual speech-bubble notes (emoji welcome), stacked and slightly tilted.
+  bubbles?: {start: number; end: number; text: string}[];
   cta?: {start: number; text: string};
   sfx: Sfx[];
 };

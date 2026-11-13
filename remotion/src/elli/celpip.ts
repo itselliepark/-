@@ -15,13 +15,13 @@ export const celpip: EditSpec = {
     {t: 7.0, text: '이렇게 나오는 거예요'},
     {t: 7.92, text: '그래서 유튜브, 인스타,'},
     {t: 9.05, text: '유료 강의까지 다 뒤져봤는데'},
-    {t: 10.52, text: '문제는', style: 'yellow'},
+    {t: 10.52, text: '문제는', style: 'red'},
     {t: 10.96, text: '일단 자료가 중구난방으로'},
     {t: 12.4, text: '너무 많고'},
     {t: 12.76, text: '가르쳐주는 데마다'},
     {t: 13.54, text: '스킬이 다 달라서', style: 'red'},
-    {t: 14.54, text: '뭘 따라야 될지'},
-    {t: 15.21, text: '모르겠는 거예요'},
+    {t: 14.54, text: '뭘 따라야 될지', style: 'red'},
+    {t: 15.21, text: '모르겠는 거예요', style: 'red'},
     {t: 16.06, text: '그래서 제가'},
     {t: 16.47, text: '유료, 무료 강의에서'},
     {t: 17.46, text: '진짜 딱 필요한 핵심만 뽑아서', style: 'mint'},
@@ -40,22 +40,15 @@ export const celpip: EditSpec = {
   zooms: [[2.88, 4.58], [5.68, 7.0], [10.52, 10.96], [17.46, 19.86], [22.26, 23.62], [27.56, 28.9]],
   tips: [],
   total: 0,
-  cardAlpha: 0.66,
-  cards: [
-    // PLACEHOLDER: real CELPIP score report capture
-    {start: 2.88, end: 4.58, kind: 'table', heading: '내 셀핍 결과', rows: [['준비 기간', '6주 (풀타임 근무 병행)'], ['점수', 'CLB 10']]},
-    {start: 10.96, end: 16.06, kind: 'table', heading: '혼자 준비할 때 문제', plain: true,
-      rows: [['자료가 중구난방으로 너무 많음'], ['가르쳐주는 데마다 스킬이 다름']], rowTimes: [10.96, 12.76]},
-    // PLACEHOLDER: real page capture of the study guide
-    {start: 16.47, end: 19.86, kind: 'check', heading: 'CELPIP 스터디 가이드', rows: [['유료 · 무료 강의에서 핵심만'], ['가이드 하나로 정리']], rowTimes: [17.46, 18.94]},
+  cards: [],
+  icons: [
+    {start: 8.15, end: 10.52, kind: 'youtube', label: '유튜브'},
+    {start: 8.75, end: 10.52, kind: 'instagram', label: '인스타'},
+    {start: 9.05, end: 10.52, kind: 'emoji', emoji: '💳', label: '유료 강의'},
   ],
-  tiles: [
-    // PLACEHOLDER: first mock-test result capture
-    {start: 5.68, end: 7.92, title: '리스닝 6', body: '첫 모의고사'},
-    {start: 6.42, end: 7.92, title: '리딩 7', body: '첫 모의고사'},
-    // PLACEHOLDER: boyfriend's score report / follower DM capture
-    {start: 20.5, end: 25.3, title: '남자친구', body: '노베이스 → 1주 만에\n셀핍 10'},
-    {start: 23.62, end: 25.3, title: '팔로워', body: '셀핍 9'},
+  bubbles: [
+    {start: 10.96, end: 16.06, text: '자료가 너무 많아 🤯'},
+    {start: 12.76, end: 16.06, text: '스킬이 다 달라 🤷‍♀️'},
   ],
   sfx: [],
 };
