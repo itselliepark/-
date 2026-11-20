@@ -21,7 +21,9 @@ export type EditSpec = {
   // Icon row: each icon pops in at its own start, left to right.
   icons?: {start: number; end: number; kind: 'youtube' | 'instagram' | 'emoji'; emoji?: string; label: string}[];
   // Casual speech-bubble notes (emoji welcome), stacked and slightly tilted.
-  bubbles?: {start: number; end: number; text: string}[];
+  bubbles?: {start: number; end: number; text: string; side?: 'left' | 'right'}[];
+  // Scattered emoji chips (e.g. "too many materials"), each pops at its own time at x/y in px.
+  scatter?: {start: number; end: number; emoji: string; x: number; y: number; rot?: number}[];
   cta?: {start: number; text: string};
   sfx: Sfx[];
 };

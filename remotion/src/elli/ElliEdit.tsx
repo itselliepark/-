@@ -188,6 +188,7 @@ export const ElliEdit: React.FC<{spec: EditSpec; skin?: Skin}> = ({spec, skin: s
   const tiles = (spec.tiles ?? []).filter((x) => t >= x.start && t < x.end);
   const icons = (spec.icons ?? []).filter((x) => t < x.end);
   const bubbles = (spec.bubbles ?? []).filter((x) => t >= x.start && t < x.end);
+  const scatter = (spec.scatter ?? []).filter((x) => t >= x.start && t < x.end);
   return (
     <AbsoluteFill style={{backgroundColor: '#000'}}>
       <AbsoluteFill style={{transform: `scale(${scale})`, transformOrigin: '50% 38%'}}>
@@ -224,20 +225,26 @@ export const ElliEdit: React.FC<{spec: EditSpec; skin?: Skin}> = ({spec, skin: s
           ))}
         </div>
       ) : null}
-      {bubbles.length ? (
-        <div style={{position: 'absolute', top: SAFE_TOP + 30, left: 0, right: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 22}}>
-          {bubbles.map((x) => {
-            const i = (spec.bubbles ?? []).indexOf(x);
-            return (
-              <div key={x.text} style={{transform: `translateX(${i % 2 ? 70 : -70}px) rotate(${i % 2 ? 2.5 : -3}deg)`}}>
-                <Pop from={Math.round(x.start * fps)}>
-                  <div style={{...skin.surface, background: 'rgba(255,255,255,.82)', borderRadius: 999, padding: '18px 40px', fontFamily: 'PretendardB', fontSize: 44, color: C.ink, whiteSpace: 'nowrap'}}>{x.text}</div>
-                </Pop>
-              </div>
-            );
-          })}
+      {scatter.map((x) => (
+        <div key={x.emoji + x.x} style={{position: 'absolute', left: x.x, top: x.y, transform: `rotate(${x.rot ?? 0}deg)`}}>
+          <Pop from={Math.round(x.start * fps)}>
+            <div style={{...skin.surface, background: 'rgba(255,255,255,.78)', borderRadius: 34, width: 120, height: 120, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 66}}>{x.emoji}</div>
+          </Pop>
         </div>
-      ) : null}
+      ))}
+      {bubbles.map((x) => {
+        const left = x.side !== 'right';
+        return (
+          <div key={x.text} style={{position: 'absolute', top: SAFE_TOP + 250, left: 0, right: 0, display: 'flex', justifyContent: 'center', transform: `translateX(${left ? -40 : 40}px) rotate(${left ? -2.5 : 2.5}deg)`}}>
+            <Pop from={Math.round(x.start * fps)} style={{position: 'relative'}}>
+              <div style={{...skin.surface, background: 'rgba(255,255,255,.88)', borderRadius: 60, padding: '26px 46px', fontFamily: 'PretendardB', fontSize: 50, color: C.ink, whiteSpace: 'nowrap'}}>{x.text}</div>
+              {/* thought-bubble tail: two dots trailing toward the speaker */}
+              <div style={{position: 'absolute', bottom: -34, left: left ? '62%' : '32%', width: 30, height: 30, borderRadius: '50%', background: 'rgba(255,255,255,.88)', boxShadow: '0 6px 14px rgba(0,0,0,.15)'}} />
+              <div style={{position: 'absolute', bottom: -64, left: left ? '58%' : '38%', width: 17, height: 17, borderRadius: '50%', background: 'rgba(255,255,255,.88)', boxShadow: '0 4px 10px rgba(0,0,0,.15)'}} />
+            </Pop>
+          </div>
+        );
+      })}
       {spec.cta && t >= spec.cta.start ? (
         <Pop from={Math.round(spec.cta.start * fps)} style={{position: 'absolute', top: 160, left: 0, right: 0, display: 'flex', justifyContent: 'center'}}>
           <div style={{background: C.mint, color: C.ink, fontFamily: 'PretendardB', fontSize: 46, lineHeight: 1.35, textAlign: 'center', padding: '20px 40px', borderRadius: 8, whiteSpace: 'pre-line'}}>{spec.cta.text}</div>
