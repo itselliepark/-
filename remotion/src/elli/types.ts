@@ -24,7 +24,7 @@ export type EditSpec = {
   bubbles?: {start: number; end: number; text: string; side?: 'left' | 'right'}[];
   // Scattered emoji chips (e.g. "too many materials"), each pops at its own time at x/y in px.
   // Real captures (score reports, DMs) shown big over the face inside a frosted-glass frame.
-  overlays?: {start: number; end: number; src: string; width?: number}[];
+  overlays?: {start: number; end: number; src: string; width?: number; frame?: boolean}[];
   scatter?: {start: number; end: number; emoji: string; x: number; y: number; rot?: number}[];
   cta?: {start: number; text: string};
   sfx: Sfx[];

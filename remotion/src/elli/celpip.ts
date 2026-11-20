@@ -39,9 +39,9 @@ export const celpip: EditSpec = {
   // Punch-ins only on lines that need emphasis.
   zooms: [[5.68, 7.0], [10.52, 10.96], [13.54, 14.54], [17.46, 19.86], [27.56, 28.9]],
   overlays: [
-    {start: 2.88, end: 4.58, src: 'media/celpip_elli_report.jpg', width: 620},
-    {start: 20.98, end: 23.62, src: 'media/celpip_bf_report.jpg', width: 620},
-    {start: 23.62, end: 25.3, src: 'media/celpip_follower_dm.jpg', width: 620},
+    {start: 2.88, end: 4.58, src: 'media/celpip_elli_report.jpg', width: 620, frame: false},
+    {start: 20.98, end: 23.62, src: 'media/celpip_bf_report.jpg', width: 620, frame: false},
+    {start: 23.62, end: 25.3, src: 'media/celpip_follower_dm.jpg', width: 620, frame: false},
   ],
   tips: [],
   total: 0,
