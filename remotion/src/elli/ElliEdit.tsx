@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {
-  AbsoluteFill, OffthreadVideo, continueRender, delayRender, interpolate, spring, staticFile,
+  AbsoluteFill, Img, OffthreadVideo, continueRender, delayRender, interpolate, spring, staticFile,
   useCurrentFrame, useVideoConfig,
 } from 'remotion';
 import type {Card, EditSpec, Sub} from './types';
@@ -189,6 +189,7 @@ export const ElliEdit: React.FC<{spec: EditSpec; skin?: Skin}> = ({spec, skin: s
   const icons = (spec.icons ?? []).filter((x) => t < x.end);
   const bubbles = (spec.bubbles ?? []).filter((x) => t >= x.start && t < x.end);
   const scatter = (spec.scatter ?? []).filter((x) => t >= x.start && t < x.end);
+  const overlay = (spec.overlays ?? []).find((x) => t >= x.start && t < x.end);
   return (
     <AbsoluteFill style={{backgroundColor: '#000'}}>
       <AbsoluteFill style={{transform: `scale(${scale})`, transformOrigin: '50% 38%'}}>
@@ -224,6 +225,13 @@ export const ElliEdit: React.FC<{spec: EditSpec; skin?: Skin}> = ({spec, skin: s
             </div>
           ))}
         </div>
+      ) : null}
+      {overlay ? (
+        <Pop key={overlay.src} from={Math.round(overlay.start * fps)} style={{position: 'absolute', top: SAFE_TOP + 10, left: 0, right: 0, display: 'flex', justifyContent: 'center'}}>
+          <div style={{...skin.surface, padding: 16, borderRadius: 44}}>
+            <Img src={staticFile(overlay.src)} style={{width: overlay.width ?? 820, display: 'block', borderRadius: 30}} />
+          </div>
+        </Pop>
       ) : null}
       {scatter.map((x) => (
         <div key={x.emoji + x.x} style={{position: 'absolute', left: x.x, top: x.y, transform: `rotate(${x.rot ?? 0}deg)`}}>

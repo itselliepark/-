@@ -37,8 +37,12 @@ export const celpip: EditSpec = {
     {t: 27.56, text: "댓글에 '셀핍' 남겨주세요", style: 'mint'},
   ],
   // Punch-ins only on lines that need emphasis.
-  // 22.3s: no zoom; Elli will supply her boyfriend's CELPIP result capture for this spot.
-  zooms: [[2.88, 4.58], [5.68, 7.0], [10.52, 10.96], [17.46, 19.86], [27.56, 28.9]],
+  zooms: [[5.68, 7.0], [10.52, 10.96], [13.54, 14.54], [17.46, 19.86], [27.56, 28.9]],
+  overlays: [
+    {start: 2.88, end: 4.58, src: 'media/celpip_elli_report.jpg'},
+    {start: 20.98, end: 23.62, src: 'media/celpip_bf_report.jpg'},
+    {start: 23.62, end: 25.3, src: 'media/celpip_follower_dm.jpg'},
+  ],
   tips: [],
   total: 0,
   cards: [],
@@ -47,7 +51,7 @@ export const celpip: EditSpec = {
     {start: 8.75, end: 10.52, kind: 'instagram', label: '인스타'},
     {start: 9.05, end: 10.52, kind: 'emoji', emoji: '💳', label: '유료 강의'},
   ],
-  // 10.9-16s: "too many materials" chips, then Elli's inner monologue as thought bubbles (quoted).
+  // 10.9-12.8s: "too many materials" chips.
   scatter: [
     {start: 10.96, end: 12.76, emoji: '📺', x: 90, y: 330, rot: -8},
     {start: 11.13, end: 12.76, emoji: '📱', x: 330, y: 300, rot: 6},
@@ -55,10 +59,6 @@ export const celpip: EditSpec = {
     {start: 11.47, end: 12.76, emoji: '🎧', x: 860, y: 340, rot: 9},
     {start: 11.64, end: 12.76, emoji: '📝', x: 210, y: 470, rot: 7},
     {start: 11.81, end: 12.76, emoji: '📄', x: 740, y: 480, rot: -9},
-  ],
-  bubbles: [
-    {start: 12.76, end: 14.54, text: '“여긴 이렇게, 저긴 저렇게… 🤔”', side: 'left'},
-    {start: 14.54, end: 16.06, text: '“그래서 뭘 따라 해야 돼…? 😵‍💫”', side: 'right'},
   ],
   sfx: [],
 };
