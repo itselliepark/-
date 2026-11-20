@@ -227,7 +227,7 @@ export const ElliEdit: React.FC<{spec: EditSpec; skin?: Skin}> = ({spec, skin: s
         </div>
       ) : null}
       {overlay ? (
-        <Pop key={overlay.src} from={Math.round(overlay.start * fps)} style={{position: 'absolute', top: SAFE_TOP + 10, left: 0, right: 0, display: 'flex', justifyContent: 'center'}}>
+        <Pop key={overlay.src} from={Math.round(overlay.start * fps)} style={{position: 'absolute', top: SAFE_TOP, bottom: 1920 - (SUB_Y - 28), left: 0, right: 0, display: 'flex', justifyContent: 'center', alignItems: 'flex-end'}}>
           <div style={{...skin.surface, padding: 16, borderRadius: 44}}>
             <Img src={staticFile(overlay.src)} style={{width: overlay.width ?? 820, display: 'block', borderRadius: 30}} />
           </div>
