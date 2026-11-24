@@ -24,6 +24,8 @@ export type EditSpec = {
   bubbles?: {start: number; end: number; text: string; side?: 'left' | 'right'}[];
   // Scattered emoji chips (e.g. "too many materials"), each pops at its own time at x/y in px.
   // Real captures (score reports, DMs) shown big over the face inside a frosted-glass frame.
+  // A running list (e.g. ingredients picked) in a glass panel; each item pops at its time.
+  list?: {start: number; end: number; title: string; items: {t: number; text: string}[]};
   overlays?: {start: number; end: number; src: string; width?: number; frame?: boolean}[];
   scatter?: {start: number; end: number; emoji: string; x: number; y: number; rot?: number}[];
   cta?: {start: number; text: string};

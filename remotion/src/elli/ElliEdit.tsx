@@ -237,6 +237,18 @@ export const ElliEdit: React.FC<{spec: EditSpec; skin?: Skin}> = ({spec, skin: s
           )}
         </Pop>
       ) : null}
+      {spec.list && t >= spec.list.start && t < spec.list.end ? (
+        <Pop from={Math.round(spec.list.start * fps)} style={{position: 'absolute', top: SAFE_TOP + 20, left: 70}}>
+          <div style={{...skin.surface, background: 'rgba(255,255,255,.72)', borderRadius: 40, padding: '24px 34px', display: 'flex', flexDirection: 'column', gap: 8, minWidth: 330}}>
+            <div style={{fontFamily: 'PretendardB', fontSize: 36, color: C.ink, marginBottom: 4}}>{spec.list.title}</div>
+            {spec.list.items.filter((it) => t >= it.t).map((it) => (
+              <Pop key={it.text} from={Math.round(it.t * fps)}>
+                <div style={{fontFamily: 'PretendardSB', fontSize: 34, color: '#2a2a2c'}}>✓ {it.text}</div>
+              </Pop>
+            ))}
+          </div>
+        </Pop>
+      ) : null}
       {scatter.map((x) => (
         <div key={x.emoji + x.x} style={{position: 'absolute', left: x.x, top: x.y, transform: `rotate(${x.rot ?? 0}deg)`}}>
           <Pop from={Math.round(x.start * fps)}>
