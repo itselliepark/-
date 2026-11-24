@@ -41,7 +41,7 @@ for i, r in enumerate(rows):
     nxt = next((x['start'] for x in rows[i+1:] if x['text'] or x['voOn']), DUR)
     span = (r['vo_len'] if r['vo_len'] else nxt - r['start'])
     limit = 99 if r.get('nosplit') else (14 if r['style'] != 'normal' else 17)
-    parts = chunks(r['text'], limit)
+    parts = r['chunks'] if r.get('chunks') else chunks(r['text'], limit)
     total = sum(len(p) for p in parts); t = r['start']
     for k, p in enumerate(parts):
         e = dict(t=round(t, 2), text=p)

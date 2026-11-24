@@ -43,5 +43,15 @@ export const Root: React.FC = () => (
       height={1920}
       defaultProps={{spec: mala, skin: 'frost80' as const}}
     />
+    {/* Caption-free cut for the feedback board's caption editor (captions are drawn live on the page). */}
+    <Composition
+      id="MalaClean"
+      component={ElliEdit}
+      durationInFrames={Math.round(mala.duration * 30)}
+      fps={30}
+      width={1080}
+      height={1920}
+      defaultProps={{spec: {...mala, subs: []}, skin: 'frost80' as const}}
+    />
   </>
 );
