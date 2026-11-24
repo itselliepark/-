@@ -40,7 +40,7 @@ for i, r in enumerate(rows):
     if not r['text']: continue
     nxt = next((x['start'] for x in rows[i+1:] if x['text'] or x['voOn']), DUR)
     span = (r['vo_len'] if r['vo_len'] else nxt - r['start'])
-    limit = 14 if r['style'] != 'normal' else 17
+    limit = 99 if r.get('nosplit') else (14 if r['style'] != 'normal' else 17)
     parts = chunks(r['text'], limit)
     total = sum(len(p) for p in parts); t = r['start']
     for k, p in enumerate(parts):

@@ -45,9 +45,9 @@ const Subtitle: React.FC<{sub: Sub; age: number}> = ({sub}) => {
   const base: React.CSSProperties = {position: 'absolute', left: 40, right: 40, top: SUB_Y, textAlign: 'center', whiteSpace: 'nowrap'};
   const text =
     style === 'normal' ? (
-      <div style={{...base, fontFamily: 'PretendardM', fontSize: 50, color: '#fff', textShadow: '0 2px 6px rgba(0,0,0,.75), 0 0 2px rgba(0,0,0,.8)'}}>{sub.text}</div>
+      <div style={{...base, fontFamily: 'PretendardM', fontSize: Math.min(50, Math.floor(1000 / (sub.text.length * 0.95))), color: '#fff', textShadow: '0 2px 6px rgba(0,0,0,.75), 0 0 2px rgba(0,0,0,.8)'}}>{sub.text}</div>
     ) : (
-      <div style={{...base, top: SUB_Y - 8, fontFamily: style === 'mint' ? 'Anemone' : 'Kkubulim', fontSize: style === 'mint' ? 66 : 70,
+      <div style={{...base, top: SUB_Y - 8, fontFamily: style === 'mint' ? 'Anemone' : 'Kkubulim', fontSize: Math.min(style === 'mint' ? 66 : 70, Math.floor(980 / (sub.text.length * 0.92))),
         color: style === 'mint' ? C.mint : style === 'yellow' ? C.yellow : C.red, textShadow: style === 'mint' ? EMPH_SHADOW : RED_SHADOW}}>{sub.text}</div>
     );
   return (
