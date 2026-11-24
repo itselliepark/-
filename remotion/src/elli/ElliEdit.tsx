@@ -181,8 +181,9 @@ export const ElliEdit: React.FC<{spec: EditSpec; skin?: Skin}> = ({spec, skin: s
   const scale = spec.framing
     ? (spec.framing.filter(([s0]) => s0 <= t + 1e-6).pop()?.[1] ?? 1)
     : zoomed ? 1.15 : 1;
-  const subIdx = spec.subs.findIndex((s, i) => t >= s.t && t < (spec.subs[i + 1]?.t ?? spec.duration));
-  const sub = subIdx >= 0 ? spec.subs[subIdx] : null;
+  const shown = spec.subs.filter((s) => s.text); // voiceover-only entries have no caption
+  const subIdx = shown.findIndex((s, i) => t >= s.t && t < (shown[i + 1]?.t ?? spec.duration));
+  const sub = subIdx >= 0 ? shown[subIdx] : null;
   const tip = spec.tips.find((x) => t >= x.start && t < x.end);
   const card = spec.cards.find((c) => t >= c.start && t < c.end);
   const tiles = (spec.tiles ?? []).filter((x) => t >= x.start && t < x.end);
