@@ -73,7 +73,7 @@ export const mala: EditSpec = {
   tips: [],
   total: 0,
   cards: [],
-  list: {start: 7.3, end: 19.2, title: '오늘 담은 재료', items: [
+  list: {start: 7.3, end: 19.2, title: '엘리 픽 재료 리스트', items: [
     {t: 7.3, text: '날치알 유부 주머니'},
     {t: 8.0, text: '피쉬두부'},
     {t: 8.5, text: '소고기 롤'},
