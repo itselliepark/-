@@ -175,6 +175,15 @@ const IconMark: React.FC<{kind: 'youtube' | 'instagram' | 'emoji'; emoji?: strin
   return <div style={{...box, background: 'rgba(255,255,255,.85)', fontSize: 88}}>{emoji}</div>;
 };
 
+// Slow push-in before a punch-in: scale eases from `from` to `to` over [start, end).
+const rampScale = (ramps: EditSpec['ramps'], t: number) => {
+  const r = ramps?.find(([a, b]) => t >= a && t < b);
+  if (!r) return 1;
+  const [a, b, from, to] = r;
+  const p = (t - a) / (b - a);
+  return from + (to - from) * (p * p * (3 - 2 * p));
+};
+
 export const ElliEdit: React.FC<{spec: EditSpec; skin?: Skin}> = ({spec, skin: skinName = 'solid'}) => {
   useFonts();
   const skin = SKINS[skinName] ?? SKINS.solid;
@@ -184,7 +193,7 @@ export const ElliEdit: React.FC<{spec: EditSpec; skin?: Skin}> = ({spec, skin: s
   const zoomed = spec.zooms.some(([a, b]) => t >= a && t < b);
   const scale = spec.framing
     ? (spec.framing.filter(([s0]) => s0 <= t + 1e-6).pop()?.[1] ?? 1)
-    : zoomed ? 1.15 : 1;
+    : zoomed ? 1.15 : rampScale(spec.ramps, t);
   const shown = spec.subs.filter((s) => s.text); // voiceover-only entries have no caption
   const subIdx = shown.findIndex((s, i) => t >= s.t && t < (shown[i + 1]?.t ?? spec.duration));
   const sub = subIdx >= 0 ? shown[subIdx] : null;

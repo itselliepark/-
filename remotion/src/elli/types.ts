@@ -11,6 +11,8 @@ export type EditSpec = {
   zooms: [number, number][];
   // Optional framing schedule [start s, scale]; when present it replaces `zooms`.
   framing?: [number, number][];
+  // Slow zoom ramps [start s, end s, from scale, to scale] (e.g. a gentle push-in right before a punch-in).
+  ramps?: [number, number, number, number][];
   tips: {start: number; end: number; n: number; label: string}[];
   total: number;
   cards: Card[];

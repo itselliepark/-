@@ -5,13 +5,13 @@ import type {EditSpec} from './types';
 export const mala: EditSpec = {
   video: 'media/mala_cut.mp4', // 0.43s cut at 73.2s so '잘~ 먹었다~' follows the last line
   duration: 75.75,
-  // v10: captions and timings set by Elli in the feedback board editor; ingredient list timed to the on-screen picks.
+  // v11: captions and timings set by Elli in the feedback board editor; ingredient list timed to the on-screen picks.
   // Captions follow Elli's own wording (caption editor, Nov 24), split into chunks timed to the Adam voiceover.
   subs: [
     {t: 0, text: '밴쿠버 롭슨에', style: 'mint', label: '📍 Big Way 롭슨 3호점'},
     {t: 0.95, text: 'Big Way 3호점 생겼어요!', style: 'mint'},
     {t: 2.6, text: '요즘 한국에서'},
-    {t: 3.23, text: '토마토 마라탕 난리라고'},
+    {t: 3.23, text: '토마토 마라탕 난리라고', style: 'mint'},
     {t: 4.32, text: '알고리즘에 계속 뜨는데'},
     {t: 5.43, text: '제가 또 안 먹어볼 수 없잖아용?'},
     {t: 6.55, text: '새로 생긴 곳이라 깔끔하고'},
@@ -26,8 +26,8 @@ export const mala: EditSpec = {
     {t: 19.2, text: '소스바 상태도 체크 함 해주고'},
     {t: 20.48, text: '토마토 베이스에', style: 'mint'},
     {t: 21.14, text: '맵기는 3단계로 할게요 🌶️', style: 'red'},
-    {t: 22.5, text: '여러분은 저처럼 배고플 때'},
-    {t: 23.44, text: '마라탕집 가지 마세요'},
+    {t: 22.3, text: '여러분은 저처럼 배고플 때'},
+    {t: 23.24, text: '마라탕집 가지 마세요'},
     {t: 24.2, text: '드디어 기다리고 기다리던'},
     {t: 25.1, text: '내 토마토 마라탕'},
     {t: 26.2, text: '하.. 영롱하다..', style: 'mint'},
@@ -67,6 +67,8 @@ export const mala: EditSpec = {
     {t: 72.36, text: '마라탕만 먹게 생겼어요'},
     {t: 73.57, text: '잘~ 먹었다~', style: 'mint'},
   ],
+  // Slow push-in from 31.9s that lands on the punch-in at the '엥..?' line.
+  ramps: [[31.9, 33.59, 1, 1.08]],
   zooms: [[33.59, 35.6], [37.2, 38.9], [54.9, 56.63], [66.65, 67.4]],
   tips: [],
   total: 0,
