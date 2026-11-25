@@ -5,7 +5,7 @@ import type {EditSpec} from './types';
 export const mala: EditSpec = {
   video: 'media/mala_cut.mp4', // 0.43s cut at 73.2s so '잘~ 먹었다~' follows the last line
   duration: 75.75,
-  // v9: captions and timings set by Elli in the feedback board editor; ingredient list timed to the on-screen picks.
+  // v10: captions and timings set by Elli in the feedback board editor; ingredient list timed to the on-screen picks.
   // Captions follow Elli's own wording (caption editor, Nov 24), split into chunks timed to the Adam voiceover.
   subs: [
     {t: 0, text: '밴쿠버 롭슨에', style: 'mint', label: '📍 Big Way 롭슨 3호점'},
@@ -47,7 +47,7 @@ export const mala: EditSpec = {
     {t: 49.32, text: '호로록 먹는 거 좋아해요'},
     {t: 50.6, text: '이때까지 저는 토마토 맛이'},
     {t: 52.07, text: '전혀 안느껴졌는데'},
-    {t: 52.65, text: '남친이 먹어보더니'},
+    {t: 52.65, text: '남자친구가 한입 먹어보더니'},
     {t: 54.9, text: '아니 글쎄 완전 토마토', style: 'mint'},
     {t: 55.64, text: '맛이라고 하는 거', style: 'mint'},
     {t: 56.2, text: '아니겠어요!?', style: 'mint'},
